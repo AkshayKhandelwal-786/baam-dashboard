@@ -13,7 +13,7 @@ import type {
   RewardHistoryData,
   DefaultData,
   SliderData,
-  CatalogueData
+  // CatalogueData
 } from './models'
 
 export class AuthService {
@@ -515,55 +515,55 @@ export class SliderService {
   }
 
 }
-export class CatalogueService {
-  /**
-   * @returns any Slider list response
-   * @throws ApiError
-   */
-  public static list(data: CatalogueData['payloads']['List']): CancelablePromise<CatalogueData['responses']['List']> {
-    const { query, authorization } = data    
-    return __request(OpenAPI, {
-      method: 'GET',
-      url: '/admin/catalogues/',
-      headers: {},
-      query: {
-        ...query
-      }
-    })
-  }
+// export class CatalogueService {
+//   /**
+//    * @returns any Slider list response
+//    * @throws ApiError
+//    */
+//   public static list(data: CatalogueData['payloads']['List']): CancelablePromise<CatalogueData['responses']['List']> {
+//     const { query, authorization } = data    
+//     return __request(OpenAPI, {
+//       method: 'GET',
+//       url: '/admin/catalogues/',
+//       headers: {},
+//       query: {
+//         ...query
+//       }
+//     })
+//   }
 
-  /**
-   * @returns any Slider create response
-   * @throws ApiError
-   */
-  public static create(data: CatalogueData['payloads']['Create']): CancelablePromise<CatalogueData['responses']['Create']> {
-    const { query, requestBody, authorization } = data
-    return __request(OpenAPI, {
-      method: 'POST',
-      url: '/admin/catalogues/',
-      headers: {},
-      body: requestBody,
-      mediaType: 'application/json'
-    })
-  }
+//   /**
+//    * @returns any Slider create response
+//    * @throws ApiError
+//    */
+//   public static create(data: CatalogueData['payloads']['Create']): CancelablePromise<CatalogueData['responses']['Create']> {
+//     const { query, requestBody, authorization } = data
+//     return __request(OpenAPI, {
+//       method: 'POST',
+//       url: '/admin/catalogues/',
+//       headers: {},
+//       body: requestBody,
+//       mediaType: 'application/json'
+//     })
+//   }
 
-  /**
-   * @returns any Slider delete response
-   * @throws ApiError
-   */
-  public static delete(data: CatalogueData['payloads']['Delete']): CancelablePromise<CatalogueData['responses']['Delete']> {
-    const { query, authorization } = data
-    return __request(OpenAPI, {
-      method: 'DELETE',
-      url: '/admin/catalogues/',
-      headers: {},
-      query: {
-        ...query
-      }
-    })
-  }
+//   /**
+//    * @returns any Slider delete response
+//    * @throws ApiError
+//    */
+//   public static delete(data: CatalogueData['payloads']['Delete']): CancelablePromise<CatalogueData['responses']['Delete']> {
+//     const { query, authorization } = data
+//     return __request(OpenAPI, {
+//       method: 'DELETE',
+//       url: '/admin/catalogues/',
+//       headers: {},
+//       query: {
+//         ...query
+//       }
+//     })
+//   }
 
-}
+// }
 
 
 
