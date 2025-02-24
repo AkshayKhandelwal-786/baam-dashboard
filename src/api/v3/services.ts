@@ -514,24 +514,6 @@ export class SliderService {
     })
   }
 
-
-  /**
-   * @returns any User update response
-   * @throws ApiError
-   */
-  public static updateDistributor(
-    data: UserData['payloads']['UpdateDistributor']
-  ): CancelablePromise<UserData['responses']['UpdateDistributor']> {
-    const { query, authorization } = data
-    return __request(OpenAPI, {
-      method: 'PUT',
-      url: '/admin/users/approve-distributor',
-      headers: {},
-      query: {
-        ...query
-      }
-    })
-  }
 }
 export class CatalogueService {
   /**
@@ -581,24 +563,6 @@ export class CatalogueService {
     })
   }
 
-
-  /**
-   * @returns any User update response
-   * @throws ApiError
-   */
-  public static updateDistributor(
-    data: UserData['payloads']['UpdateDistributor']
-  ): CancelablePromise<UserData['responses']['UpdateDistributor']> {
-    const { query, authorization } = data
-    return __request(OpenAPI, {
-      method: 'PUT',
-      url: '/admin/users/approve-distributor',
-      headers: {},
-      query: {
-        ...query
-      }
-    })
-  }
 }
 
 
