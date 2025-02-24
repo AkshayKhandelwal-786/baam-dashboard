@@ -12,7 +12,8 @@ import type {
   UserData,
   RewardHistoryData,
   DefaultData,
-  SliderData
+  SliderData,
+  CatalogueData
 } from './models'
 
 export class AuthService {
@@ -537,7 +538,7 @@ export class CatalogueService {
    * @returns any Slider list response
    * @throws ApiError
    */
-  public static list(data: SliderData['payloads']['List']): CancelablePromise<SliderData['responses']['List']> {
+  public static list(data: CatalogueData['payloads']['List']): CancelablePromise<CatalogueData['responses']['List']> {
     const { query, authorization } = data    
     return __request(OpenAPI, {
       method: 'GET',
@@ -553,7 +554,7 @@ export class CatalogueService {
    * @returns any Slider create response
    * @throws ApiError
    */
-  public static create(data: SliderData['payloads']['Create']): CancelablePromise<SliderData['responses']['Create']> {
+  public static create(data: CatalogueData['payloads']['Create']): CancelablePromise<CatalogueData['responses']['Create']> {
     const { query, requestBody, authorization } = data
     return __request(OpenAPI, {
       method: 'POST',
@@ -568,7 +569,7 @@ export class CatalogueService {
    * @returns any Slider delete response
    * @throws ApiError
    */
-  public static delete(data: SliderData['payloads']['Delete']): CancelablePromise<SliderData['responses']['Delete']> {
+  public static delete(data: CatalogueData['payloads']['Delete']): CancelablePromise<CatalogueData['responses']['Delete']> {
     const { query, authorization } = data
     return __request(OpenAPI, {
       method: 'DELETE',
