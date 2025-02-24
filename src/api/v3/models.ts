@@ -832,80 +832,79 @@ export type SliderData = {
     }
   }
 }
+export type CatalogueData = {
+  payloads: {
+    List: {
+      authorization?: string
+      query: {
+        page: string
+        size: string
+      }
+    }
+    Create: {
+      authorization?: string
+      requestBody: {
+        file: string
+      }
+      query?: {}
+    }
+    Update: {
+      status: boolean
+      message: string
+      data: {
+        _id: string
+        file: string
+      }
+    }
+    Delete: {
+      authorization?: string
+      query: {
+        id: string
+      }
+    }
+  }
 
-// export type CatalogueData = {
-//   payloads: {
-//     List: {
-//       authorization?: string
-//       query: {
-//         page: string
-//         size: string
-//       }
-//     }
-//     Create: {
-//       authorization?: string
-//       requestBody: {
-//         file: string
-//       }
-//       query?: {}
-//     }
-//     Update: {
-//       status: boolean
-//       message: string
-//       data: {
-//         _id: string
-//         file: string
-//       }
-//     }
-//     Delete: {
-//       authorization?: string
-//       query: {
-//         id: string
-//       }
-//     }
-//   }
-
-//   responses: {
-//     List: {
-//       status: boolean
-//       message: string
-//       data: Array<{
-//         _id?: string
-//         file?: string
-//       }>
-//       meta: {
-//         pages: number
-//         total: number
-//         page: number
-//         size: number
-//       }
-//     }
-//     Create: {
-//       status: boolean
-//       message: string
-//       data: {
-//         _id?: string
-//         file?: string
-//       }
-//     }
-//     Delete: {
-//       status: boolean
-//       message: string
-//       data: {
-//         _id?: string
-//         file?: string
-//       }
-//     }
-//     Detail: {
-//       status: boolean
-//       message: string
-//       data: {
-//         _id?: string
-//         file?: string
-//       }
-//     }
-//   }
-// }
+  responses: {
+    List: {
+      status: boolean
+      message: string
+      data: Array<{
+        _id?: string
+        file?: string
+      }>
+      meta: {
+        pages: number
+        total: number
+        page: number
+        size: number
+      }
+    }
+    Create: {
+      status: boolean
+      message: string
+      data: {
+        _id?: string
+        file?: string
+      }
+    }
+    Delete: {
+      status: boolean
+      message: string
+      data: {
+        _id?: string
+        file?: string
+      }
+    }
+    Detail: {
+      status: boolean
+      message: string
+      data: {
+        _id?: string
+        file?: string
+      }
+    }
+  }
+}
 
 
 export type RewardHistoryData = {
