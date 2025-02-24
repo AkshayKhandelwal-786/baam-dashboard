@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 import api from 'src/configs/api';
-const API_URL = api.baseUrl;
+let API_URL = api.baseUrl ?? "";
 console.log('API_URL', API_URL)
 // Login user
 const get = async (token, data) => {

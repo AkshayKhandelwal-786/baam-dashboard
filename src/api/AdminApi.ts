@@ -2,7 +2,7 @@ import api from 'src/configs/api'
 import { ApiError, OpenAPI } from './v3/index'
 OpenAPI.BASE = (api.baseUrl as string)
 
-if (OpenAPI.BASE && OpenAPI.BASE.includes("localhost")) { 
+if (OpenAPI.BASE.includes("localhost")) {
   OpenAPI.BASE = OpenAPI.BASE.replace('/admin', '')
 } else {
   OpenAPI.BASE = OpenAPI.BASE.replace('m/admin', 'm')
