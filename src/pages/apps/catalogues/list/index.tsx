@@ -34,10 +34,10 @@ import * as yup from 'yup'
 import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { inputType } from 'src/context/types'
-import useCatalogueStore, { Catalogue } from 'src/features/catalogue/catalogue.service'
+import useCataloguesStore, { Catalogues } from 'src/features/catalogues/catalogues.service'
 import CustomAvatar from 'src/@core/components/mui/avatar'
 interface CellType {
-    row: Catalogue
+    row: Catalogues
 }
 
 export const PrfileLevelObject: any = {
@@ -50,26 +50,27 @@ export const PrfileLevelObject: any = {
 const fileUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 // ** renders client column
-type PlanListColumn = Omit<GridColDef, 'field'> & { field: keyof Catalogue }
+type PlanListColumn = Omit<GridColDef, 'field'> & { field: keyof Catalogues }
 
 const defaultColumns: PlanListColumn[] = [
     {
         flex: 0.1,
         field: '_id',
         minWidth: 40,
-        headerName: 'Image',
+        headerName: 'File',
         renderCell: ({ row }: CellType) => {
 
             return (
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    {row?.file && typeof row.file === 'string' && row.file.length > 0 && (
-                        <a href={`${fileUrl}/${row.file}`} target="_blank" rel="noopener noreferrer">
-                            <CustomAvatar src="/images/pdf.png" sx={{ mr: 3, width: 70, height: 70 }} />
-                        </a>
-                    )}
+                    {
+                        row?.file?.length ?
+                            <a href={`${fileUrl}${row.file}`} target="_blank" rel="noopener noreferrer">
+                                <CustomAvatar src="/images/pdf.png" sx={{ mr: 3, width: 70, height: 70 }} />
+                            </a>
+                            : ''
+                    }
                 </Box>
-            );
-            
+            )
         }
     },
 ]
@@ -89,8 +90,9 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
     const [openEdit, setOpenEdit] = useState<boolean>(false)
 
     // ** Hooks
-    const store = useCatalogueStore()
-
+    const store = useCataloguesStore()
+    console.log("<",store);
+    
     const {
         control,
         handleSubmit,
@@ -167,7 +169,6 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
 
     const onSubmit = async () => {
         const bodyData = getValues() as any
-        console.log(",bodyData", bodyData);
 
         await store.add(bodyData)
         handleEditClose()
@@ -214,7 +215,7 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
                         <DataGrid
                             autoHeight
                             pagination
-                            rows={store.astrologer.list}
+                            rows={store?.astrologer?.list ?? []}
                             columns={columns}
                             getRowId={row => row?._id}
                             // checkboxSelection

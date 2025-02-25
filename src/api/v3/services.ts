@@ -13,7 +13,7 @@ import type {
   RewardHistoryData,
   DefaultData,
   SliderData,
-  CatalogueData
+  CataloguesData
 } from './models'
 
 export class AuthService {
@@ -515,13 +515,17 @@ export class SliderService {
   }
 
 }
-export class CatalogueService {
+
+export class CataloguesService {
   /**
    * @returns any Slider list response
    * @throws ApiError
    */
-  public static list(data: CatalogueData['payloads']['List']): CancelablePromise<CatalogueData['responses']['List']> {
+  public static list(data: CataloguesData['payloads']['List']): CancelablePromise<CataloguesData['responses']['List']> {
     const { query, authorization } = data    
+
+    console.log("<<<<ads",data);
+    
     return __request(OpenAPI, {
       method: 'GET',
       url: '/admin/catalogues/',
@@ -536,7 +540,7 @@ export class CatalogueService {
    * @returns any Slider create response
    * @throws ApiError
    */
-  public static create(data: CatalogueData['payloads']['Create']): CancelablePromise<CatalogueData['responses']['Create']> {
+  public static create(data: CataloguesData['payloads']['Create']): CancelablePromise<CataloguesData['responses']['Create']> {
     const { query, requestBody, authorization } = data
     return __request(OpenAPI, {
       method: 'POST',
@@ -551,7 +555,7 @@ export class CatalogueService {
    * @returns any Slider delete response
    * @throws ApiError
    */
-  public static delete(data: CatalogueData['payloads']['Delete']): CancelablePromise<CatalogueData['responses']['Delete']> {
+  public static delete(data: CataloguesData['payloads']['Delete']): CancelablePromise<CataloguesData['responses']['Delete']> {
     const { query, authorization } = data
     return __request(OpenAPI, {
       method: 'DELETE',
@@ -564,8 +568,6 @@ export class CatalogueService {
   }
 
 }
-
-
 
 
 

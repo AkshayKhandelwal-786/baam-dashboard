@@ -757,8 +757,6 @@ export type UserData = {
   }
 }
 
-
-
 export type SliderData = {
   payloads: {
     List: {
@@ -832,7 +830,8 @@ export type SliderData = {
     }
   }
 }
-export type CatalogueData = {
+
+export type CataloguesData = {
   payloads: {
     List: {
       authorization?: string
@@ -905,7 +904,6 @@ export type CatalogueData = {
     }
   }
 }
-
 
 export type RewardHistoryData = {
   payloads: {

@@ -1,20 +1,20 @@
 import { create } from 'zustand'
 import { combine } from 'zustand/middleware'
 import toast from 'react-hot-toast'
-import { CatalogueService } from 'src/api/AdminApi'
-import { CatalogueData } from 'src/api/v3/models'
+import { CataloguesService } from 'src/api/AdminApi'
+import { CataloguesData } from 'src/api/v3/models'
 import { getBase64 } from 'src/helpers/common'
-export type Catalogue = CatalogueData['responses']['Detail']['data']
+export type Catalogues = CataloguesData['responses']['Detail']['data']
 
 let timeOut: any
 
-const useCatalogueStore = create(
+const useCataloguesStore = create(
   combine(
     {
       astrologer: {
         id: null as any,
-        list: [] as Catalogue[],
-        detail: null as unknown as Catalogue,
+        list: [] as Catalogues[],
+        detail: null as unknown as Catalogues,
         total: 0,
         page: 0,
         size: 10,
@@ -31,7 +31,7 @@ const useCatalogueStore = create(
           } = get()
 
           toast.promise(
-            CatalogueService.list({
+            CataloguesService.list({
               query: { page: `${page}`, size: `${size}` }
             }),
             {
@@ -80,7 +80,7 @@ const useCatalogueStore = create(
                 filter: filter || null
               }
             }))
-            useCatalogueStore.getState().get.list()
+            useCataloguesStore.getState().get.list()
           }
 
           if (search) {
@@ -109,13 +109,13 @@ const useCatalogueStore = create(
           }
         }
         return await toast.promise(
-            CatalogueService.create({
+            CataloguesService.create({
             requestBody: bodyData,
           }),
           {
             loading: id ? 'Updating' : 'Adding',
             success: res => {
-                useCatalogueStore.getState().get.paginate({})
+                useCataloguesStore.getState().get.paginate({})
               return res?.message
             },
             error: err => {
@@ -130,10 +130,10 @@ const useCatalogueStore = create(
         
         if (!id) return toast.error('No plan to delete')
 
-        toast.promise(CatalogueService.delete({ query: { id: id } }), {
+        toast.promise(CataloguesService.delete({ query: { id: id } }), {
           loading: 'deleting',
           success: res => {
-            useCatalogueStore.getState().get.paginate({})
+            useCataloguesStore.getState().get.paginate({})
             return res?.message
           },
           error: err => {
@@ -146,4 +146,4 @@ const useCatalogueStore = create(
   )
 )
 
-export default useCatalogueStore
+export default useCataloguesStore

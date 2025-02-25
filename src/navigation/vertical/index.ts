@@ -111,9 +111,9 @@ export const commonRoutes = [
     moduleId: 1
   },
   {
-    title: 'Catalogue',
+    title: 'Catalogues',
     icon: 'mdi:slider',
-    path: '/apps/catalogue/list',
+    path: '/apps/catalogues/list',
     gameIds: [1, 2],
     moduleId: 1
   },
