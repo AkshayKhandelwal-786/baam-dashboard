@@ -205,7 +205,7 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
                                             handleEditClickOpen(true)
                                         }}
                                     >
-                                        Creatsdfe {page_title}
+                                        Create {page_title}
                                     </Button>
                                 </Box>
                             )}
