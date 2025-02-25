@@ -62,11 +62,11 @@ const defaultColumns: PlanListColumn[] = [
 
             return (
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    {row?.file && (
+                    {row?.file?.length ?  (
                         <a href={`${fileUrl}${row.file}`} target="_blank" rel="noopener noreferrer">
                             <CustomAvatar src="/images/pdf.png" sx={{ mr: 3, width: 70, height: 70 }} />
                         </a>
-                    )}
+                    ) : ''}
 
                 </Box>
             );
