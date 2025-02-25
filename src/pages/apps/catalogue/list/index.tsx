@@ -62,21 +62,23 @@ const defaultColumns: PlanListColumn[] = [
 
             return (
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    {
-                        row?.file?.length ?
-                            <CustomAvatar src={`${fileUrl}${row?.file}`} sx={{ mr: 3, width: 50, height: 50 }} />
-                            : ''
-                    }
+                    {row?.file && (
+                        <a href={`${fileUrl}${row.file}`} target="_blank" rel="noopener noreferrer">
+                            <CustomAvatar src="/images/pdf.png" sx={{ mr: 3, width: 70, height: 70 }} />
+                        </a>
+                    )}
+
                 </Box>
-            )
+            );
+            
         }
     },
 ]
 
 const schema = yup.object().shape({
     file: yup
-        .mixed().label("Image")
-        .meta({ type: 'file', attr: { accept: 'image/x-png,image/jpeg' } })
+        .mixed().label("File")
+        .meta({ type: 'file', attr: { accept: 'application/pdf' } })
         .required(),
 })
 const defaultValues = schema.getDefault()
