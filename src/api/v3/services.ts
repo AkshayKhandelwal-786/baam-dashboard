@@ -13,7 +13,8 @@ import type {
   RewardHistoryData,
   DefaultData,
   SliderData,
-  CataloguesData
+  CataloguesData,
+  PageData
 } from './models'
 
 export class AuthService {
@@ -516,6 +517,42 @@ export class SliderService {
 
 }
 
+export class PageService {
+  /**
+   * @returns any Slider list response
+   * @throws ApiError
+   */
+  public static list(data: PageData['payloads']['List']): CancelablePromise<PageData['responses']['List']> {
+    const { query, authorization } = data    
+    return __request(OpenAPI, {
+      method: 'GET',
+      url: '/admin/pages/',
+      headers: {},
+      query: {
+        ...query
+      }
+    })
+  }
+
+  /**
+   * @returns any Slider create response
+   * @throws ApiError
+   */
+  public static create(data: PageData['payloads']['Create']): CancelablePromise<PageData['responses']['Create']> {
+    const { query, requestBody, authorization } = data
+    return __request(OpenAPI, {
+      method: 'POST',
+      url: '/admin/pages/',
+      headers: {},
+      body: requestBody,
+      mediaType: 'application/json'
+    })
+  }
+}
+
+
+
+
 export class CataloguesService {
   /**
    * @returns any Slider list response
@@ -550,23 +587,6 @@ export class CataloguesService {
       mediaType: 'application/json'
     })
   }
-
-  /**
-   * @returns any Slider delete response
-   * @throws ApiError
-   */
-  public static delete(data: CataloguesData['payloads']['Delete']): CancelablePromise<CataloguesData['responses']['Delete']> {
-    const { query, authorization } = data
-    return __request(OpenAPI, {
-      method: 'DELETE',
-      url: '/admin/catalogues/',
-      headers: {},
-      query: {
-        ...query
-      }
-    })
-  }
-
 }
 
 

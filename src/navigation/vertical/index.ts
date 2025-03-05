@@ -117,6 +117,13 @@ export const commonRoutes = [
     gameIds: [1, 2],
     moduleId: 1
   },
+  {
+    title: 'About us',
+    icon: 'mdi:slider',
+    path: '/apps/about-us/list',
+    gameIds: [1, 2],
+    moduleId: 1
+  },
 
   // {
   //   sectionTitle: 'App',

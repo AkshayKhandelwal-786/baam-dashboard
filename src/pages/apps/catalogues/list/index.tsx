@@ -286,7 +286,7 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
                                         }
 
                                         return (
-                                            <Grid item xs={12} sm={12}>
+                                            <Grid item xs={12} sm={12} key={fieldName}>
                                                 <FormControl fullWidth>
                                                     <Controller
                                                         name={fieldName as any}
