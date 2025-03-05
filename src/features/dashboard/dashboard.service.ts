@@ -13,8 +13,7 @@ const useDashboardStore = create(
       {
         dashboardSummary: {
           total_user: 0,
-          total_slider: 0,
-          total_catalogue: 0,
+          total_rewards: 0,
           total_qr: 0,
         }
       },

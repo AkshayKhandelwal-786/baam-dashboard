@@ -18,7 +18,7 @@ const AboutUs = () => {
     }, []);
     
     useEffect(() => {
-        const aboutUsPage = astrologer.list.find(page => page.type === "about-us");
+        const aboutUsPage = astrologer.list.find(page => page.type === "help-support");
         if (aboutUsPage) {
             setContent(aboutUsPage.content);
         }
@@ -39,7 +39,7 @@ const AboutUs = () => {
         e.preventDefault();
         
         const requestData = {
-            type: "about-us",
+            type: "help-support",
             content: content
         };
 
@@ -74,7 +74,7 @@ const AboutUs = () => {
                         <br />
                         <Container className="text-center">
                             <Button type="submit" className="rounded-0" color="primary">
-                                Update About Us
+                                Update Help & Center
                             </Button>
                         </Container>
                     </Form>

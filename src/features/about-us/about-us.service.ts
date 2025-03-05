@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { combine } from 'zustand/middleware'
 import toast from 'react-hot-toast'
-import { SliderService } from 'src/api/AdminApi'
+import { PageService } from 'src/api/AdminApi'
 import { PageData } from 'src/api/v3/models'
 import { getBase64 } from 'src/helpers/common'
 export type Page = PageData['responses']['Detail']['data']
@@ -31,7 +31,7 @@ const useSliderStore = create(
           } = get()
 
           toast.promise(
-            SliderService.list({
+            PageService.list({
               query: { page: `${page}`, size: `${size}` }
             }),
             {
@@ -109,7 +109,7 @@ const useSliderStore = create(
           }
         }
         return await toast.promise(
-          SliderService.create({
+          PageService.create({
             requestBody: bodyData,
           }),
           {
