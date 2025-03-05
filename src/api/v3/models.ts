@@ -958,6 +958,59 @@ export type PageData = {
   }
 }
 
+export type DashboardData = {
+  payloads: {
+    List: {
+      authorization?: string
+      query: {
+        page: string
+        size: string
+      }
+    }
+    Create: {
+      authorization?: string
+      requestBody: {
+        type: string,
+        content: string,
+      }
+      query?: {}
+    }
+  }
+
+  responses: {
+    List: {
+      status: boolean
+      message: string
+      data: Array<{
+        _id?: string
+        file?: string
+      }>
+      meta: {
+        pages: number
+        total: number
+        page: number
+        size: number
+      }
+    }
+    Create: {
+      status: boolean
+      message: string
+      data: {
+        _id?: string
+        file?: string
+      }
+    }
+    Detail: {
+      status: boolean
+      message: string
+      data: {
+        _id?: string
+        file?: string
+      }
+    }
+  }
+}
+
 export type RewardHistoryData = {
   payloads: {
     List: {

@@ -38,19 +38,19 @@ export const commonRoutes = [
   //   ]
   // },
 
-  {
-    title: 'Roles & Permissions',
-    icon: 'mdi:shield-outline',
-    gameIds: [1, 2],
-    moduleId: 1,
-    children: [
-      {
-        title: 'Roles',
-        path: '/apps/roles',
-        ...can(1, [1, 2])
-      }
-    ]
-  },
+  // {
+  //   title: 'Roles & Permissions',
+  //   icon: 'mdi:shield-outline',
+  //   gameIds: [1, 2],
+  //   moduleId: 1,
+  //   children: [
+  //     {
+  //       title: 'Roles',
+  //       path: '/apps/roles',
+  //       ...can(1, [1, 2])
+  //     }
+  //   ]
+  // },
   {
     title: 'QRs',
     icon: 'mdi:qrcode',

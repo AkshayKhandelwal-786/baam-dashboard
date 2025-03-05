@@ -47,117 +47,117 @@ interface NoResultProps {
   setOpenDialog: (val: boolean) => void
 }
 
-interface DefaultSuggestionsType {
-  category: string
-  suggestions: {
-    link: string
-    icon: string
-    suggestion: string
-  }[]
-}
+// interface DefaultSuggestionsType {
+//   category: string
+//   suggestions: {
+//     link: string
+//     icon: string
+//     suggestion: string
+//   }[]
+// }
 
-const defaultSuggestionsData: DefaultSuggestionsType[] = [
-  {
-    category: 'Popular Searches',
-    suggestions: [
-      {
-        icon: 'mdi:chart-donut',
-        suggestion: 'Analytics',
-        link: '/dashboards/crm'
-      },
-      {
-        icon: 'mdi:poll',
-        suggestion: 'Analytics',
-        link: '/dashboards/analytics'
-      },
-      {
-        icon: 'mdi:chart-bubble',
-        suggestion: 'eCommerce',
-        link: '/dashboards/ecommerce'
-      },
-      {
-        icon: 'mdi:account-group',
-        suggestion: 'User List',
-        link: '/apps/user/list'
-      }
-    ]
-  },
-  {
-    category: 'Apps & Pages',
-    suggestions: [
-      {
-        icon: 'mdi:calendar-blank',
-        suggestion: 'Calendar',
-        link: '/apps/calendar'
-      },
-      {
-        icon: 'mdi:format-list-numbered',
-        suggestion: 'Invoice List',
-        link: '/apps/invoice/list'
-      },
-      {
-        icon: 'mdi:currency-usd',
-        suggestion: 'Pricing',
-        link: '/pages/pricing'
-      },
-      {
-        icon: 'mdi:account-cog-outline',
-        suggestion: 'Account Settings',
-        link: '/pages/account-settings/account'
-      }
-    ]
-  },
-  {
-    category: 'User Interface',
-    suggestions: [
-      {
-        icon: 'mdi:format-text-variant-outline',
-        suggestion: 'Typography',
-        link: '/ui/typography'
-      },
-      {
-        icon: 'mdi:tab',
-        suggestion: 'Tabs',
-        link: '/components/tabs'
-      },
-      {
-        icon: 'mdi:gesture-tap-button',
-        suggestion: 'Buttons',
-        link: '/components/buttons'
-      },
-      {
-        icon: 'mdi:card-bulleted-settings-outline',
-        suggestion: 'Advanced Cards',
-        link: '/ui/cards/advanced'
-      }
-    ]
-  },
-  {
-    category: 'Forms & Tables',
-    suggestions: [
-      {
-        icon: 'mdi:format-list-checkbox',
-        suggestion: 'Select',
-        link: '/forms/form-elements/select'
-      },
-      {
-        icon: 'mdi:lastpass',
-        suggestion: 'Autocomplete',
-        link: '/forms/form-elements/autocomplete'
-      },
-      {
-        icon: 'mdi:view-grid-outline',
-        suggestion: 'Table',
-        link: '/tables/mui'
-      },
-      {
-        icon: 'mdi:calendar-range',
-        suggestion: 'Date Pickers',
-        link: '/forms/form-elements/pickers'
-      }
-    ]
-  }
-]
+// const defaultSuggestionsData: DefaultSuggestionsType[] = [
+//   {
+//     category: 'Popular Searches',
+//     suggestions: [
+//       {
+//         icon: 'mdi:chart-donut',
+//         suggestion: 'Analytics',
+//         link: '/dashboards/crm'
+//       },
+//       {
+//         icon: 'mdi:poll',
+//         suggestion: 'Analytics',
+//         link: '/dashboards/analytics'
+//       },
+//       {
+//         icon: 'mdi:chart-bubble',
+//         suggestion: 'eCommerce',
+//         link: '/dashboards/ecommerce'
+//       },
+//       {
+//         icon: 'mdi:account-group',
+//         suggestion: 'User List',
+//         link: '/apps/user/list'
+//       }
+//     ]
+//   },
+//   {
+//     category: 'Apps & Pages',
+//     suggestions: [
+//       {
+//         icon: 'mdi:calendar-blank',
+//         suggestion: 'Calendar',
+//         link: '/apps/calendar'
+//       },
+//       {
+//         icon: 'mdi:format-list-numbered',
+//         suggestion: 'Invoice List',
+//         link: '/apps/invoice/list'
+//       },
+//       {
+//         icon: 'mdi:currency-usd',
+//         suggestion: 'Pricing',
+//         link: '/pages/pricing'
+//       },
+//       {
+//         icon: 'mdi:account-cog-outline',
+//         suggestion: 'Account Settings',
+//         link: '/pages/account-settings/account'
+//       }
+//     ]
+//   },
+//   {
+//     category: 'User Interface',
+//     suggestions: [
+//       {
+//         icon: 'mdi:format-text-variant-outline',
+//         suggestion: 'Typography',
+//         link: '/ui/typography'
+//       },
+//       {
+//         icon: 'mdi:tab',
+//         suggestion: 'Tabs',
+//         link: '/components/tabs'
+//       },
+//       {
+//         icon: 'mdi:gesture-tap-button',
+//         suggestion: 'Buttons',
+//         link: '/components/buttons'
+//       },
+//       {
+//         icon: 'mdi:card-bulleted-settings-outline',
+//         suggestion: 'Advanced Cards',
+//         link: '/ui/cards/advanced'
+//       }
+//     ]
+//   },
+//   {
+//     category: 'Forms & Tables',
+//     suggestions: [
+//       {
+//         icon: 'mdi:format-list-checkbox',
+//         suggestion: 'Select',
+//         link: '/forms/form-elements/select'
+//       },
+//       {
+//         icon: 'mdi:lastpass',
+//         suggestion: 'Autocomplete',
+//         link: '/forms/form-elements/autocomplete'
+//       },
+//       {
+//         icon: 'mdi:view-grid-outline',
+//         suggestion: 'Table',
+//         link: '/tables/mui'
+//       },
+//       {
+//         icon: 'mdi:calendar-range',
+//         suggestion: 'Date Pickers',
+//         link: '/forms/form-elements/pickers'
+//       }
+//     ]
+//   }
+// ]
 
 const categoryTitle: { [k: string]: string } = {
   dashboards: 'Dashboards',
@@ -325,39 +325,40 @@ const NoResult = ({ value, setOpenDialog }: NoResultProps) => {
 
 const DefaultSuggestions = ({ setOpenDialog }: DefaultSuggestionsProps) => {
   return (
-    <Grid container spacing={6} sx={{ ml: 0 }}>
-      {defaultSuggestionsData.map((item, index) => (
-        <Grid item xs={12} sm={6} key={index}>
-          <Typography component='p' variant='overline' sx={{ lineHeight: 1.25, color: 'text.disabled' }}>
-            {item.category}
-          </Typography>
-          <List sx={{ py: 2.5 }}>
-            {item.suggestions.map((suggestionItem, index2) => (
-              <ListItem key={index2} sx={{ py: 2 }} disablePadding>
-                <Box
-                  component={Link}
-                  href={suggestionItem.link}
-                  onClick={() => setOpenDialog(false)}
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    '& svg': { mr: 2.5 },
-                    color: 'text.primary',
-                    textDecoration: 'none',
-                    '&:hover > *': { color: 'primary.main' }
-                  }}
-                >
-                  <Icon icon={suggestionItem.icon} fontSize={20} />
-                  <Typography variant='body2' sx={{ color: 'text.primary' }}>
-                    {suggestionItem.suggestion}
-                  </Typography>
-                </Box>
-              </ListItem>
-            ))}
-          </List>
-        </Grid>
-      ))}
-    </Grid>
+    // <Grid container spacing={6} sx={{ ml: 0 }}>
+    //   {defaultSuggestionsData.map((item, index) => (
+    //     <Grid item xs={12} sm={6} key={index}>
+    //       <Typography component='p' variant='overline' sx={{ lineHeight: 1.25, color: 'text.disabled' }}>
+    //         {item.category}
+    //       </Typography>
+    //       <List sx={{ py: 2.5 }}>
+    //         {item.suggestions.map((suggestionItem, index2) => (
+    //           <ListItem key={index2} sx={{ py: 2 }} disablePadding>
+    //             <Box
+    //               component={Link}
+    //               href={suggestionItem.link}
+    //               onClick={() => setOpenDialog(false)}
+    //               sx={{
+    //                 display: 'flex',
+    //                 alignItems: 'center',
+    //                 '& svg': { mr: 2.5 },
+    //                 color: 'text.primary',
+    //                 textDecoration: 'none',
+    //                 '&:hover > *': { color: 'primary.main' }
+    //               }}
+    //             >
+    //               <Icon icon={suggestionItem.icon} fontSize={20} />
+    //               <Typography variant='body2' sx={{ color: 'text.primary' }}>
+    //                 {suggestionItem.suggestion}
+    //               </Typography>
+    //             </Box>
+    //           </ListItem>
+    //         ))}
+    //       </List>
+    //     </Grid>
+    //   ))}
+    // </Grid>
+    <></>
   )
 }
 
@@ -403,13 +404,13 @@ const AutocompleteComponent = ({ hidden, settings }: Props) => {
   }, [])
 
   // Handle click event on a list item in search result
-  const handleOptionClick = (obj: AppBarSearchType) => {
-    setSearchValue('')
-    setOpenDialog(false)
-    if (obj.url) {
-      router.push(obj.url)
-    }
-  }
+  // const handleOptionClick = (obj: AppBarSearchType) => {
+  //   setSearchValue('')
+  //   setOpenDialog(false)
+  //   if (obj.url) {
+  //     router.push(obj.url)
+  //   }
+  // }
 
   // Handle ESC & shortcut keys keydown events
   const handleKeydown = useCallback(
@@ -447,139 +448,141 @@ const AutocompleteComponent = ({ hidden, settings }: Props) => {
     return null
   } else {
     return (
-      <Box
-        ref={wrapper}
-        onClick={() => !openDialog && setOpenDialog(true)}
-        sx={{ display: 'flex', cursor: 'pointer', alignItems: 'center' }}
-      >
-        <IconButton color='inherit' sx={!hidden && layout === 'vertical' ? { mr: 1, ml: -2.75 } : {}}>
-          <Icon icon='mdi:magnify' />
-        </IconButton>
-        {!hidden && layout === 'vertical' ? (
-          <Typography sx={{ userSelect: 'none', color: 'text.disabled' }}>Search (Ctrl+/)</Typography>
-        ) : null}
-        {openDialog && (
-          <Dialog fullWidth open={openDialog} fullScreen={fullScreenDialog} onClose={() => setOpenDialog(false)}>
-            <Box sx={{ top: 0, width: '100%', position: 'sticky' }}>
-              <Autocomplete
-                autoHighlight
-                disablePortal
-                options={options}
-                id='appBar-search'
-                isOptionEqualToValue={() => true}
-                onInputChange={(event, value: string) => setSearchValue(value)}
-                onChange={(event, obj) => handleOptionClick(obj as AppBarSearchType)}
-                noOptionsText={<NoResult value={searchValue} setOpenDialog={setOpenDialog} />}
-                getOptionLabel={(option: AppBarSearchType | unknown) => (option as AppBarSearchType).title || ''}
-                groupBy={(option: AppBarSearchType | unknown) =>
-                  searchValue.length ? categoryTitle[(option as AppBarSearchType).category] : ''
-                }
-                sx={{
-                  '& + .MuiAutocomplete-popper': {
-                    ...(searchValue.length
-                      ? {
-                          overflow: 'auto',
-                          maxHeight: 'calc(100vh - 69px)',
-                          borderTop: `1px solid ${theme.palette.divider}`,
-                          height: fullScreenDialog ? 'calc(100vh - 69px)' : 481,
-                          '& .MuiListSubheader-root': { p: theme.spacing(3.75, 6, 0.75) }
-                        }
-                      : {
-                          '& .MuiAutocomplete-listbox': { pb: 0 }
-                        })
-                  }
-                }}
-                renderInput={(params: AutocompleteRenderInputParams) => {
-                  return (
-                    <TextField
-                      {...params}
-                      value={searchValue}
-                      onChange={(event: ChangeEvent<HTMLInputElement>) => setSearchValue(event.target.value)}
-                      inputRef={input => {
-                        if (input) {
-                          if (openDialog) {
-                            input.focus()
-                          } else {
-                            input.blur()
-                          }
-                        }
-                      }}
-                      InputProps={{
-                        ...params.InputProps,
-                        sx: { p: `${theme.spacing(3.75, 6)} !important` },
-                        startAdornment: (
-                          <InputAdornment position='start' sx={{ color: 'text.primary' }}>
-                            <Icon icon='mdi:magnify' />
-                          </InputAdornment>
-                        ),
-                        endAdornment: (
-                          <InputAdornment
-                            position='end'
-                            onClick={() => setOpenDialog(false)}
-                            sx={{ display: 'flex', cursor: 'pointer', alignItems: 'center' }}
-                          >
-                            {!hidden ? <Typography sx={{ mr: 2.5, color: 'text.disabled' }}>[esc]</Typography> : null}
-                            <IconButton size='small' sx={{ p: 1 }}>
-                              <Icon icon='mdi:close' fontSize={20} />
-                            </IconButton>
-                          </InputAdornment>
-                        )
-                      }}
-                    />
-                  )
-                }}
-                renderOption={(props, option: AppBarSearchType | unknown) => {
-                  return searchValue.length ? (
-                    <ListItem
-                      {...props}
-                      key={(option as AppBarSearchType).title}
-                      className={`suggestion ${props.className}`}
-                      onClick={() => handleOptionClick(option as AppBarSearchType)}
-                      secondaryAction={<Icon icon='mdi:subdirectory-arrow-left' fontSize={20} />}
-                      sx={{
-                        '& .MuiListItemSecondaryAction-root': {
-                          '& svg': {
-                            cursor: 'pointer',
-                            color: 'text.disabled'
-                          }
-                        }
-                      }}
-                    >
-                      <ListItemButton
-                        sx={{
-                          py: 2.5,
-                          px: `${theme.spacing(6)} !important`,
-                          '& svg': { mr: 2.5, color: 'text.primary' }
-                        }}
-                      >
-                        <Icon fontSize={20} icon={(option as AppBarSearchType).icon || themeConfig.navSubItemIcon} />
-                        <Typography variant='body2' sx={{ color: 'text.primary' }}>
-                          {(option as AppBarSearchType).title}
-                        </Typography>
-                      </ListItemButton>
-                    </ListItem>
-                  ) : null
-                }}
-              />
-            </Box>
-            {searchValue.length === 0 ? (
-              <Box
-                sx={{
-                  p: 10,
-                  display: 'grid',
-                  overflow: 'auto',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  borderTop: `1px solid ${theme.palette.divider}`,
-                  height: fullScreenDialog ? 'calc(100vh - 69px)' : '100%'
-                }}
-              >
-                <DefaultSuggestions setOpenDialog={setOpenDialog} />
-              </Box>
-            ) : null}
-          </Dialog>
-        )}
-      </Box>
+      // <Box
+      //   ref={wrapper}
+      //   onClick={() => !openDialog && setOpenDialog(true)}
+      //   sx={{ display: 'flex', cursor: 'pointer', alignItems: 'center' }}
+      // >
+      //   <IconButton color='inherit' sx={!hidden && layout === 'vertical' ? { mr: 1, ml: -2.75 } : {}}>
+      //     <Icon icon='mdi:magnify' />
+      //   </IconButton>
+      //   {/* {!hidden && layout === 'vertical' ? (
+      //     <Typography sx={{ userSelect: 'none', color: 'text.disabled' }}>Search (Ctrl+/)</Typography>
+      //   ) : null} */}
+      //   {openDialog && (
+      //     // <Dialog fullWidth open={openDialog} fullScreen={fullScreenDialog} onClose={() => setOpenDialog(false)}>
+      //     //   <Box sx={{ top: 0, width: '100%', position: 'sticky' }}>
+      //     //     <Autocomplete
+      //     //       autoHighlight
+      //     //       disablePortal
+      //     //       options={options}
+      //     //       id='appBar-search'
+      //     //       isOptionEqualToValue={() => true}
+      //     //       onInputChange={(event, value: string) => setSearchValue(value)}
+      //     //       onChange={(event, obj) => handleOptionClick(obj as AppBarSearchType)}
+      //     //       noOptionsText={<NoResult value={searchValue} setOpenDialog={setOpenDialog} />}
+      //     //       getOptionLabel={(option: AppBarSearchType | unknown) => (option as AppBarSearchType).title || ''}
+      //     //       groupBy={(option: AppBarSearchType | unknown) =>
+      //     //         searchValue.length ? categoryTitle[(option as AppBarSearchType).category] : ''
+      //     //       }
+      //     //       sx={{
+      //     //         '& + .MuiAutocomplete-popper': {
+      //     //           ...(searchValue.length
+      //     //             ? {
+      //     //                 overflow: 'auto',
+      //     //                 maxHeight: 'calc(100vh - 69px)',
+      //     //                 borderTop: `1px solid ${theme.palette.divider}`,
+      //     //                 height: fullScreenDialog ? 'calc(100vh - 69px)' : 481,
+      //     //                 '& .MuiListSubheader-root': { p: theme.spacing(3.75, 6, 0.75) }
+      //     //               }
+      //     //             : {
+      //     //                 '& .MuiAutocomplete-listbox': { pb: 0 }
+      //     //               })
+      //     //         }
+      //     //       }}
+      //     //       renderInput={(params: AutocompleteRenderInputParams) => {
+      //     //         return (
+      //     //           <TextField
+      //     //             {...params}
+      //     //             value={searchValue}
+      //     //             onChange={(event: ChangeEvent<HTMLInputElement>) => setSearchValue(event.target.value)}
+      //     //             inputRef={input => {
+      //     //               if (input) {
+      //     //                 if (openDialog) {
+      //     //                   input.focus()
+      //     //                 } else {
+      //     //                   input.blur()
+      //     //                 }
+      //     //               }
+      //     //             }}
+      //     //             InputProps={{
+      //     //               ...params.InputProps,
+      //     //               sx: { p: `${theme.spacing(3.75, 6)} !important` },
+      //     //               startAdornment: (
+      //     //                 <InputAdornment position='start' sx={{ color: 'text.primary' }}>
+      //     //                   <Icon icon='mdi:magnify' />
+      //     //                 </InputAdornment>
+      //     //               ),
+      //     //               endAdornment: (
+      //     //                 <InputAdornment
+      //     //                   position='end'
+      //     //                   onClick={() => setOpenDialog(false)}
+      //     //                   sx={{ display: 'flex', cursor: 'pointer', alignItems: 'center' }}
+      //     //                 >
+      //     //                   {!hidden ? <Typography sx={{ mr: 2.5, color: 'text.disabled' }}>[esc]</Typography> : null}
+      //     //                   <IconButton size='small' sx={{ p: 1 }}>
+      //     //                     <Icon icon='mdi:close' fontSize={20} />
+      //     //                   </IconButton>
+      //     //                 </InputAdornment>
+      //     //               )
+      //     //             }}
+      //     //           />
+      //     //         )
+      //     //       }}
+      //     //       renderOption={(props, option: AppBarSearchType | unknown) => {
+      //     //         return searchValue.length ? (
+      //     //           <ListItem
+      //     //             {...props}
+      //     //             key={(option as AppBarSearchType).title}
+      //     //             className={`suggestion ${props.className}`}
+      //     //             onClick={() => handleOptionClick(option as AppBarSearchType)}
+      //     //             secondaryAction={<Icon icon='mdi:subdirectory-arrow-left' fontSize={20} />}
+      //     //             sx={{
+      //     //               '& .MuiListItemSecondaryAction-root': {
+      //     //                 '& svg': {
+      //     //                   cursor: 'pointer',
+      //     //                   color: 'text.disabled'
+      //     //                 }
+      //     //               }
+      //     //             }}
+      //     //           >
+      //     //             <ListItemButton
+      //     //               sx={{
+      //     //                 py: 2.5,
+      //     //                 px: `${theme.spacing(6)} !important`,
+      //     //                 '& svg': { mr: 2.5, color: 'text.primary' }
+      //     //               }}
+      //     //             >
+      //     //               <Icon fontSize={20} icon={(option as AppBarSearchType).icon || themeConfig.navSubItemIcon} />
+      //     //               <Typography variant='body2' sx={{ color: 'text.primary' }}>
+      //     //                 {(option as AppBarSearchType).title}
+      //     //               </Typography>
+      //     //             </ListItemButton>
+      //     //           </ListItem>
+      //     //         ) : null
+      //     //       }}
+      //     //     />
+      //     //   </Box>
+      //     //   {searchValue.length === 0 ? (
+      //     //     <Box
+      //     //       sx={{
+      //     //         p: 10,
+      //     //         display: 'grid',
+      //     //         overflow: 'auto',
+      //     //         alignItems: 'center',
+      //     //         justifyContent: 'center',
+      //     //         borderTop: `1px solid ${theme.palette.divider}`,
+      //     //         height: fullScreenDialog ? 'calc(100vh - 69px)' : '100%'
+      //     //       }}
+      //     //     >
+      //     //       {/* <DefaultSuggestions setOpenDialog={setOpenDialog} /> */}
+      //     //     </Box>
+      //     //   ) : null}
+      //     // </Dialog>
+      //     <></>
+      //   )}
+      // </Box>
+      <></>
     )
   }
 }

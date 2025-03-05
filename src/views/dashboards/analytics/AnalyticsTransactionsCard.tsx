@@ -1,5 +1,5 @@
 // ** React Imports
-import { ReactElement } from 'react'
+import { ReactElement, useEffect } from 'react'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -18,6 +18,9 @@ import { ThemeColor } from 'src/@core/layouts/types'
 // ** Custom Components Imports
 import OptionsMenu from 'src/@core/components/option-menu'
 import CustomAvatar from 'src/@core/components/mui/avatar'
+import useDashboardStore, { Dashboard } from 'src/features/dashboard/dashboard.service'
+
+const renderStats = () => {  
 
 interface DataType {
   stats: string
@@ -25,37 +28,35 @@ interface DataType {
   color: ThemeColor
   icon: ReactElement
 }
+const { dashboardSummary, getSummary } = useDashboardStore();
+useEffect(() => {
+  getSummary();
+}, []);
+
 
 const salesData: DataType[] = [
   {
-    stats: '245k',
+    stats: dashboardSummary.total_user?.toString() || '0',
     title: 'Total Users',
     color: 'primary',
     icon: <Icon icon='mdi:account-outline' />
   },
   {
-    stats: '12.5k',
-    title: 'Total Slider',
+    stats: dashboardSummary.total_qr?.toString() || '0',
+    title: 'Total QR',
     color: 'success',
     icon: <Icon icon='mdi:trending-up' />
   },
   {
-    stats: '1.54k',
+    stats: dashboardSummary.total_rewards?.toString() || '0',
     color: 'warning',
-    title: 'Total Catalogue',
+    title: 'Total Rewards',
     icon: <Icon icon='mdi:cellphone-link' />
   },
-  {
-    stats: '$88k',
-    color: 'info',
-    title: 'Total QR',
-    icon: <Icon icon='mdi:currency-usd' />
-  }
 ]
 
-const renderStats = () => {
   return salesData.map((item: DataType, index: number) => (
-    <Grid item xs={12} sm={3} key={index}>
+    <Grid item xs={12} sm={4} key={index}>
       <Box key={index} sx={{ display: 'flex', alignItems: 'center' }}>
         <CustomAvatar
           variant='rounded'

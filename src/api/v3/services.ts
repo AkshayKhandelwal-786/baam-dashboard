@@ -550,6 +550,36 @@ export class PageService {
   }
 }
 
+export class DashboardService {
+  /**
+   * @returns any Slider list response
+   * @throws ApiError
+   */
+  public static list(data: PageData['payloads']['List']): CancelablePromise<PageData['responses']['List']> {
+    const { query, authorization } = data    
+    return __request(OpenAPI, {
+      method: 'GET',
+      url: '/admin/details/',
+      headers: {},
+      query: {
+        ...query
+      }
+    })
+  }
+
+  public static create(data: PageData['payloads']['Create']): CancelablePromise<PageData['responses']['Create']> {
+    const { query, requestBody, authorization } = data
+    return __request(OpenAPI, {
+      method: 'POST',
+      url: '/admin/pages/',
+      headers: {},
+      body: requestBody,
+      mediaType: 'application/json'
+    })
+  }
+
+}
+
 
 
 
