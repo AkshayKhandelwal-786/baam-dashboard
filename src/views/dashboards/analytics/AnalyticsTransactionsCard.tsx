@@ -29,26 +29,26 @@ interface DataType {
 const salesData: DataType[] = [
   {
     stats: '245k',
-    title: 'Sales',
+    title: 'Total Users',
     color: 'primary',
-    icon: <Icon icon='mdi:trending-up' />
+    icon: <Icon icon='mdi:account-outline' />
   },
   {
     stats: '12.5k',
-    title: 'Customers',
+    title: 'Total Slider',
     color: 'success',
-    icon: <Icon icon='mdi:account-outline' />
+    icon: <Icon icon='mdi:trending-up' />
   },
   {
     stats: '1.54k',
     color: 'warning',
-    title: 'Products',
+    title: 'Total Catalogue',
     icon: <Icon icon='mdi:cellphone-link' />
   },
   {
     stats: '$88k',
     color: 'info',
-    title: 'Revenue',
+    title: 'Total QR',
     icon: <Icon icon='mdi:currency-usd' />
   }
 ]
@@ -77,28 +77,7 @@ const AnalyticsTransactionsCard = () => {
   return (
     <Card>
       <CardHeader
-        title='Transactions'
-        action={
-          <OptionsMenu
-            options={['Last 28 Days', 'Last Month', 'Last Year']}
-            iconButtonProps={{ size: 'small', sx: { color: 'text.primary' } }}
-          />
-        }
-        subheader={
-          <Typography variant='body2'>
-            <Box component='span' sx={{ fontWeight: 600, color: 'text.primary' }}>
-              Total 48.5% growth
-            </Box>{' '}
-            😎 this month
-          </Typography>
-        }
-        titleTypographyProps={{
-          sx: {
-            mb: 2.5,
-            lineHeight: '2rem !important',
-            letterSpacing: '0.15px !important'
-          }
-        }}
+        title='Dashboard'
       />
       <CardContent sx={{ pt: theme => `${theme.spacing(3)} !important` }}>
         <Grid container spacing={[5, 0]}>
