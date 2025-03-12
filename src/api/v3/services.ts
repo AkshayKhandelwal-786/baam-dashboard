@@ -14,7 +14,8 @@ import type {
   DefaultData,
   SliderData,
   CataloguesData,
-  PageData
+  PageData,
+  RedeemRequestData
 } from './models'
 
 export class AuthService {
@@ -639,6 +640,69 @@ export class RewardHistoryService {
       query: {
         ...query
       }
+    })
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+export class RedeemRequestService {
+  /**
+   * @returns any RewardHistory Response
+   * @throws ApiError
+   */
+  public static list(
+    data: RewardHistoryData['payloads']['List']
+  ): CancelablePromise<RewardHistoryData['responses']['List']> {
+    const { query, authorization } = data
+    return __request(OpenAPI, {
+      method: 'GET',
+      url: '/admin/redeem-requests/',
+      headers: {},
+      query: {
+        ...query
+      }
+    })
+  }
+  /**
+   * @returns any Reward Response
+   * @throws ApiError
+   */
+  public static create(data: RedeemRequestData['payloads']['Create']): CancelablePromise<RedeemRequestData['responses']['Create']> {
+    const { query, formData, authorization } = data
+    return __request(OpenAPI, {
+      method: 'POST',
+      url: '/admin/reward/',
+      headers: {},
+      formData: formData,
+      mediaType: 'multipart/form-data'
+    })
+  }
+
+  /**
+   * @returns any Reward Response
+   * @throws ApiError
+   */
+  public static update(data: RedeemRequestData['payloads']['Update']): CancelablePromise<RedeemRequestData['responses']['Update']> {
+    const { query, formData, authorization } = data
+    return __request(OpenAPI, {
+      method: 'PUT',
+      url: '/admin/redeem-requests/',
+      headers: {},
+      query: {
+        ...query
+      },
+      formData: formData,
+      mediaType: 'multipart/form-data'
     })
   }
 }

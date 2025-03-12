@@ -1061,6 +1061,130 @@ export type RewardHistoryData = {
   }
 }
 
+export type RedeemRequestData = {
+  payloads: {
+    List: {
+      authorization?: string
+
+      query: {
+        page: string
+        size: string
+        user?: string
+      }
+    }
+    Create: {
+      authorization?: string
+      formData: {
+        title: string
+        label: string
+        benefits: string
+        details: string
+        tnc: string
+        discount: string | number
+        image: Blob | File
+        expire_at: string
+        qr: Blob | File
+        points: string | number
+        user_types: string
+      }
+
+      query?: {}
+    }
+    Update: {
+      authorization?: string
+      formData: {
+        type: string
+        description: string
+      }
+
+      query: {
+        id: string
+      }
+    }
+  }
+
+  responses: {
+    List: {
+      status: boolean
+      message: string
+      data: Array<{
+        _id: string
+        reward: {
+          _id: string
+          title: string
+          label: string
+          benefits: Array<string>
+          details: string
+          tnc: string
+          discount: number
+          image: string
+          expire_at: string
+          qr: string
+          points: number
+          user_types: Array<string>
+          createdAt: string
+          updatedAt: string
+        }
+        user: {
+          _id: string
+          name: string
+          email: string
+          phone: string
+          phone_code: string
+        }
+        status: string,
+        points:number,
+        type: String,
+        createdAt: string
+        updatedAt: string
+      }>
+      meta: {
+        pages: number
+        total: number
+        page: number
+        size: number
+      }
+    }
+    Create: {
+      status: boolean
+      message: string
+      data: {
+        _id: string
+        title: string
+        label: string
+        benefits: Array<string>
+        details: string
+        tnc: string
+        discount: number
+        image: string
+        expire_at: string
+        qr: string
+        points: number
+        user_types: Array<string>
+        createdAt: string
+        updatedAt: string
+      }
+    }
+    Update: {
+      status: boolean
+      message: string
+      data: {
+        _id: string
+        type: string
+        description: string
+      }
+    }
+    Detail: {
+      status: boolean
+      message: string
+      data: {
+        _id?: string
+        file?: string
+      }
+    }
+  }
+}
+
 export type DefaultData = {
   responses: {
     GetAdminDoc: unknown
