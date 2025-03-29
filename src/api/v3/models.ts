@@ -1190,3 +1190,146 @@ export type DefaultData = {
     GetAdminDoc: unknown
   }
 }
+
+
+export type PromotionData = {
+  payloads: {
+    List: {
+      authorization?: string
+
+      query: {
+        page: string
+        size: string
+      }
+    }
+    Create: {
+      authorization?: string
+      requestBody: {
+        title: string
+        offer_point: number
+        offer_status: string
+        description: string
+        expiry_date: string
+        file: string
+      }
+
+      query?: {}
+    }
+    Update: {
+      authorization?: string
+      formData: {
+        title: string
+        label: string
+        benefits: string
+        details: string
+        tnc: string
+        discount: number
+        image: Blob | File
+        expire_at: string
+        qr: Blob | File
+        points: number
+        user_types: string
+      }
+
+      query: {
+        id: string
+      }
+    }
+    Delete: {
+      authorization?: string
+
+      query: {
+        id: string
+      }
+    }
+  }
+
+  responses: {
+    List: {
+      status: boolean
+      message: string
+      data: Array<{
+        _id: string
+        title: string
+        label: string
+        benefits: Array<string>
+        details: string
+        tnc: string
+        discount: number
+        image: string
+        expire_at: string
+        qr: string
+        points: number
+        user_types: Array<string>
+        createdAt: string
+        updatedAt: string
+      }>
+      meta: {
+        pages: number
+        total: number
+        page: number
+        size: number
+      }
+    }
+    Create: {
+      status: boolean
+      message: string
+      data: {
+        _id: string
+        title: string
+        label: string
+        benefits: Array<string>
+        details: string
+        tnc: string
+        discount: number
+        image: string
+        expire_at: string
+        qr: string
+        points: number
+        user_types: Array<string>
+        createdAt: string
+        updatedAt: string
+      }
+    }
+    Update: {
+      status: boolean
+      message: string
+      data: {
+        _id: string
+        title: string
+        label: string
+        benefits: Array<string>
+        details: string
+        tnc: string
+        discount: number
+        image: string
+        expire_at: string
+        qr: string
+        points: number
+        user_types: Array<string>
+        createdAt: string
+        updatedAt: string
+      }
+    }
+    Delete: {
+      status: boolean
+      message: string
+      data: {
+        _id: string
+        title: string
+        label: string
+        benefits: Array<string>
+        details: string
+        tnc: string
+        discount: number
+        image: string
+        expire_at: string
+        qr: string
+        points: number
+        user_types: Array<string>
+        createdAt: string
+        updatedAt: string
+      }
+    }
+  }
+}

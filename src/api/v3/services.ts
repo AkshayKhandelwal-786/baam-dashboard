@@ -15,7 +15,8 @@ import type {
   SliderData,
   CataloguesData,
   PageData,
-  RedeemRequestData
+  RedeemRequestData,
+  PromotionData
 } from './models'
 
 export class AuthService {
@@ -463,11 +464,6 @@ export class UserService {
   }
 }
 
-
-
-
-
-
 export class SliderService {
   /**
    * @returns any Slider list response
@@ -581,9 +577,6 @@ export class DashboardService {
 
 }
 
-
-
-
 export class CataloguesService {
   /**
    * @returns any Slider list response
@@ -620,10 +613,6 @@ export class CataloguesService {
   }
 }
 
-
-
-
-
 export class RewardHistoryService {
   /**
    * @returns any RewardHistory Response
@@ -643,16 +632,6 @@ export class RewardHistoryService {
     })
   }
 }
-
-
-
-
-
-
-
-
-
-
 
 
 export class RedeemRequestService {
@@ -716,6 +695,62 @@ export class DefaultService {
     return __request(OpenAPI, {
       method: 'GET',
       url: '/admin-doc'
+    })
+  }
+}
+
+
+
+
+
+export class PromotionService {
+  /**
+   * @returns any Reward Response
+   * @throws ApiError
+   */
+  public static list(data: PromotionData['payloads']['List']): CancelablePromise<PromotionData['responses']['List']> {
+    const { query, authorization } = data
+    return __request(OpenAPI, {
+      method: 'GET',
+      url: '/admin/promotion/',
+      headers: {},
+      query: {
+        ...query
+      }
+    })
+  }
+
+  /**
+   * @returns any Reward Response
+   * @throws ApiError
+   */
+  
+  public static create(data: PromotionData['payloads']['Create']): CancelablePromise<PromotionData['responses']['Create']> {
+    const { query, requestBody, authorization } = data
+    return __request(OpenAPI, {
+      method: 'POST',
+      url: '/admin/promotion/',
+      headers: {},
+      body: requestBody,
+      mediaType: 'application/json'
+    })
+  }
+
+
+
+  /**
+   * @returns any Reward Response
+   * @throws ApiError
+   */
+  public static delete(data: PromotionData['payloads']['Delete']): CancelablePromise<PromotionData['responses']['Delete']> {
+    const { query, authorization } = data
+    return __request(OpenAPI, {
+      method: 'DELETE',
+      url: '/admin/promotion/',
+      headers: {},
+      query: {
+        ...query
+      }
     })
   }
 }
