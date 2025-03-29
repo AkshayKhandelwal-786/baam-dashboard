@@ -460,7 +460,6 @@ export type RewardData = {
         benefits: string
         details: string
         tnc: string
-        discount: string | number
         image: Blob | File
         expire_at: string
         qr: Blob | File

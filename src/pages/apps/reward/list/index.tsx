@@ -49,6 +49,7 @@ import EditableDatePicker from 'src/views/components/pickers/EditableDatePicker'
 interface CellType {
   row: QR
 }
+import CustomAvatar from 'src/@core/components/mui/avatar'
 
 // ** Styled component for the link in the dataTable
 const LinkStyled = styled(Link)(({ theme }) => ({
@@ -58,6 +59,8 @@ const LinkStyled = styled(Link)(({ theme }) => ({
 
 // ** renders client column
 type PlanListColumn = Omit<GridColDef, 'field'> & { field: keyof QR }
+const fileUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+console.log("<<<<<<",fileUrl);
 
 const defaultColumns: PlanListColumn[] = [
 
@@ -67,9 +70,16 @@ const defaultColumns: PlanListColumn[] = [
     minWidth: 80,
     headerName: 'image',
     renderCell: ({ row }: CellType) => (
-      <LinkStyled href={getPublicUrl(row.image) + ""} target='_blank' onClick={e => { }} sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }}>
-        <Avatar alt='' src={'' + getPublicUrl(row.image)} sx={{ mr: 3 }} />
-      </LinkStyled>
+
+      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+      {row?.image?.length ? (
+        <CustomAvatar
+          src={`${fileUrl}/public/images/${row?.image}`}
+          sx={{ mr: 3, width: 50, height: 50 }}
+        />
+      ) : null}
+    </Box>
+
     )
   },
 
@@ -80,6 +90,13 @@ const defaultColumns: PlanListColumn[] = [
   //   headerName: 'qr',
   //   renderCell: ({ row }: CellType) => <Typography variant='body2'>{row.qr}</Typography>
   // },
+  {
+    flex: 0.2,
+    minWidth: 90,
+    field: 'title',
+    headerName: 'title',
+    renderCell: ({ row }: CellType) => <Typography variant='body2'>{row.title}</Typography>
+  },
   {
     flex: 0.2,
     minWidth: 90,
@@ -102,8 +119,7 @@ const schema = yup.object().shape({
   label: yup.string().label("Label").meta({}).required(),
   details: yup.string().label("Details").meta({}).required(),
   tnc: yup.string().label("T&C").meta({}).required(),
-  discount: yup.number().label("Discount").meta({}).required(),
-  expire_at: yup.date().label('Expire At').meta({}).required(),
+  expire_at: yup.date().label('Expire At').meta({}).optional(),
   image: yup
     .mixed().label("Image")
     .meta({ type: 'file', attr: { accept: 'image/x-png,image/gif,image/jpeg' } })
