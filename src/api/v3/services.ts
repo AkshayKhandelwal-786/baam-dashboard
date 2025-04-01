@@ -16,7 +16,8 @@ import type {
   CataloguesData,
   PageData,
   RedeemRequestData,
-  PromotionData
+  PromotionData,
+  DashboardData
 } from './models'
 
 export class AuthService {
@@ -552,7 +553,7 @@ export class DashboardService {
    * @returns any Slider list response
    * @throws ApiError
    */
-  public static list(data: PageData['payloads']['List']): CancelablePromise<PageData['responses']['List']> {
+  public static list(data: DashboardData['payloads']['List']): CancelablePromise<DashboardData['responses']['List']> {
     const { query, authorization } = data    
     return __request(OpenAPI, {
       method: 'GET',
@@ -561,17 +562,6 @@ export class DashboardService {
       query: {
         ...query
       }
-    })
-  }
-
-  public static create(data: PageData['payloads']['Create']): CancelablePromise<PageData['responses']['Create']> {
-    const { query, requestBody, authorization } = data
-    return __request(OpenAPI, {
-      method: 'POST',
-      url: '/admin/pages/',
-      headers: {},
-      body: requestBody,
-      mediaType: 'application/json'
     })
   }
 

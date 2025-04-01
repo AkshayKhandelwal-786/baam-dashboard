@@ -981,8 +981,10 @@ export type DashboardData = {
       status: boolean
       message: string
       data: Array<{
-        _id?: string
-        file?: string
+        total_user: number
+        total_qr: number
+        total_rewards: number
+        total_promotion: number
       }>
       meta: {
         pages: number

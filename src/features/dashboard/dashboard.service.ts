@@ -13,8 +13,10 @@ const useDashboardStore = create(
       {
         dashboardSummary: {
           total_user: 0,
-          total_rewards: 0,
           total_qr: 0,
+          total_rewards: 0,
+          total_promotion: 0,
+          users : [],
         }
       },
       (set) => ({
