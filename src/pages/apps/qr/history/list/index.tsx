@@ -87,6 +87,13 @@ const defaultColumns: PlanListColumn[] = [
     },
     {
         flex: 0.2,
+        minWidth: 90,
+        field: 'code',
+        headerName: 'code',
+        renderCell: ({ row }: CellType) => <Typography variant='body2'>{(row.qr as any)?.code}</Typography>,
+      },
+    {
+        flex: 0.2,
         field: 'user',
         minWidth: 90,
         headerName: 'User',
@@ -194,6 +201,8 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
         <DatePickerWrapper>
             <Grid container spacing={6}>
                 <Grid item xs={12}>
+                    <h3>List History QR</h3>
+
                     <Card>
                         <Box
                             sx={{

@@ -272,6 +272,8 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
     <DatePickerWrapper>
       <Grid container spacing={6}>
         <Grid item xs={12}>
+        <h3>List Promotion</h3>
+
           <Card>
             <Box
               sx={{

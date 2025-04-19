@@ -34,24 +34,28 @@ const AnalyticsTransactionsCard = () => {
       title: 'Total Users',
       color: 'primary',
       icon: <Icon icon='mdi:account-outline' />,
+      url:'/apps/users/list/'
     },
     {
       stats: dashboardSummary?.total_qr?.toString() || '0',
       title: 'Total QR',
       color: 'success',
       icon: <Icon icon='mdi:trending-up' />,
+      url:'/apps/qr/list/'
     },
     {
       stats: dashboardSummary?.total_rewards?.toString() || '0',
       color: 'warning',
       title: 'Total Active Rewards',
       icon: <Icon icon='mdi:cellphone-link' />,
+      url:'/apps/reward/list//'
     },
     {
       stats: dashboardSummary?.total_promotion?.toString() || '0',
       color: 'warning',
       title: 'Total Active Promotion',
       icon: <Icon icon='mdi:cellphone-link' />,
+      url:'/apps/promotion/list//'
     },
   ];
 
@@ -72,19 +76,21 @@ const AnalyticsTransactionsCard = () => {
         <Grid container spacing={3}>
           {salesData.map((item, index) => (
             <Grid item xs={12} sm={6} md={3} key={index}>
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <CustomAvatar
-                  variant='rounded'
-                  color={item.color as any}
-                  sx={{ mr: 3, boxShadow: 3, width: 44, height: 44, '& svg': { fontSize: '1.75rem' } }}
-                >
-                  {item.icon}
-                </CustomAvatar>
-                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                  <Typography variant='caption'>{item.title}</Typography>
-                  <Typography variant='h6'>{item.stats}</Typography>
+              <a href={item.url} style={{ textDecoration: 'none' }}>
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <CustomAvatar
+                    variant='rounded'
+                    color={item.color as any}
+                    sx={{ mr: 3, boxShadow: 3, width: 44, height: 44, '& svg': { fontSize: '1.75rem' } }}
+                  >
+                    {item.icon}
+                  </CustomAvatar>
+                  <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                    <Typography variant='caption'>{item.title}</Typography>
+                    <Typography variant='h6'>{item.stats}</Typography>
+                  </Box>
                 </Box>
-              </Box>
+              </a>
             </Grid>
           ))}
         </Grid>
