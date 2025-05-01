@@ -44,27 +44,22 @@ const usePromotionStore = create(
             reward: { page, size, search, paginate }
           } = get()
 
-          toast.promise(
-            PromotionService.list({
+          try {
+            const res = await PromotionService.list({
               query: { page: `${page}`, size: `${size}` }
-            }),
-            {
-              loading: 'fetching...',
-              success: res => {
-                set(prev => ({
-                  reward: {
-                    ...prev.reward,
-                    list: res?.data,
-                    total: res?.meta?.total
-                  }
-                }))
-                return res?.message || 'fetched'
-              },
-              error: err => {
-                return err?.message?.message
+            })
+          
+            set(prev => ({
+              reward: {
+                ...prev.reward,
+                list: res?.data,
+                total: res?.meta?.total
               }
-            }
-          )
+            }))
+          } catch (err: any) {
+            console.error('Fetch error:', err?.message || err)
+          }
+          
         },
         paginate: ({
           page,
@@ -110,29 +105,39 @@ const usePromotionStore = create(
       select: (id: any) => set(prev => ({ reward: { ...prev.reward, id: id } })),
       add: async (bodyData: any) => {
         let id = get().reward.id
-        
-        bodyData.file = await getBase64(bodyData.file);
-        
+                
         if (id) {
-          if (typeof bodyData.image == 'string') {
-            delete bodyData.image
+          console.log("<<",bodyData);
+          
+          if (bodyData.file) {
+            bodyData.file = await getBase64(bodyData.file);
           }
+        } else {
+          bodyData.file = await getBase64(bodyData.file);
         }
+        
         return await toast.promise(
-          PromotionService.create({
-            requestBody: bodyData,
-          }),
+          (id
+            ? PromotionService.update({
+                query: { id },
+                requestBody: bodyData
+              })
+            : PromotionService.create({
+                requestBody: bodyData
+              })) as Promise<PromotionData['responses']['Update']>, // ✅ This helps narrow type
           {
             loading: id ? 'Updating' : 'Adding',
             success: res => {
               usePromotionStore.getState().get.paginate({})
-              return res?.message
+              return id ? 'Promotion updated successfully.' : 'Promotion added successfully.'
+
             },
             error: err => {
-              return err?.message
+              return err?.message || 'Something went wrong.'
             }
           }
         )
+        
 
       },
       delete: async () => {
@@ -144,7 +149,7 @@ const usePromotionStore = create(
           loading: 'deleting',
           success: res => {
             usePromotionStore.getState().get.paginate({})
-            return res?.message
+            return 'Promotion deleted successfully.'
           },
           error: err => {
             return err?.message

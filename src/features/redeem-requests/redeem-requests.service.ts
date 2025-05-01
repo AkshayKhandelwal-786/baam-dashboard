@@ -28,27 +28,22 @@ const useRedeemRequestStore = create(
             history: { page, size, search, paginate, user_id }
           } = get()
 
-          toast.promise(
-            RedeemRequestService.list({
+
+          try {
+            const res = await RedeemRequestService.list({
               query: { page: `${page}`, size: `${size}`, user: `${user_id}` }
-            }),
-            {
-              loading: 'fetching...',
-              success: res => {
-                set(prev => ({
-                  history: {
-                    ...prev.history,
-                    list: res?.data,
-                    total: res?.meta?.total
-                  }
-                }))
-                return res?.message || 'fetched'
-              },
-              error: err => {
-                return err?.message?.message
+            })
+          
+            set(prev => ({
+              history: {
+                ...prev.history,
+                list: res?.data,
+                total: res?.meta?.total
               }
-            }
-          )
+            }))
+          } catch (err: any) {
+            console.error('Fetch error:', err?.message || err)
+          }
         },
         paginate: ({
           page,
@@ -121,7 +116,7 @@ const useRedeemRequestStore = create(
             loading: id ? 'Updating' : 'Adding',
             success: res => {
               useRedeemRequestStore.getState().get.paginate({})
-              return res?.message
+              return "Redeem Request status changed successfully."
             },
             error: err => {
               return err?.message

@@ -30,27 +30,21 @@ const useSliderStore = create(
             astrologer: { page, size, search, paginate }
           } = get()
 
-          toast.promise(
-            SliderService.list({
-              query: { page: `${page}`, size: `${size}` }
-            }),
-            {
-              loading: 'fetching...',
-              success: res => {
-                set(prev => ({
-                  astrologer: {
-                    ...prev.astrologer,
-                    list: res?.data,
-                    total: res?.meta?.total
-                  }
-                }))
-                return res?.message || 'fetched'
-              },
-              error: err => {
-                return err?.message?.message
-              }
+          try {
+              const res = await SliderService.list({
+                query: { page: `${page}`, size: `${size}` }
+              })
+            
+              set(prev => ({
+                astrologer: {
+                  ...prev.astrologer,
+                  list: res?.data,
+                  total: res?.meta?.total
+                }
+              }))
+            } catch (err: any) {
+              console.error('Fetch error:', err?.message || err)
             }
-          )
         },
         paginate: ({
           page,
@@ -116,7 +110,7 @@ const useSliderStore = create(
             loading: id ? 'Updating' : 'Adding',
             success: res => {
               useSliderStore.getState().get.paginate({})
-              return res?.message
+              return "Slider added successfully."
             },
             error: err => {
               return err?.message
@@ -134,7 +128,7 @@ const useSliderStore = create(
           loading: 'deleting',
           success: res => {
             useSliderStore.getState().get.paginate({})
-            return res?.message
+            return "Slider deleted successfully."
           },
           error: err => {
             return err?.message

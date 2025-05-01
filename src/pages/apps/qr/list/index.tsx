@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 
 // ** Next Import
 import Link from 'next/link'
+import dayjs from 'dayjs'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -97,6 +98,17 @@ const defaultColumns: PlanListColumn[] = [
     field: 'user_types',
     headerName: 'user types',
     renderCell: ({ row }: CellType) => <Typography variant='body2'>{row.user_types.join(" & ")}</Typography>
+  },
+  {
+    flex: 0.2,
+    minWidth: 90,
+    field: 'createdAt',
+    headerName: 'Created At',
+    renderCell: ({ row }: CellType) => (
+      <Typography variant='body2'>
+        {dayjs(row.createdAt).format('DD MMM YYYY')}
+      </Typography>
+    )
   }
 ]
 
@@ -107,6 +119,8 @@ const schema = yup.object().shape({
   //   .meta({ type: 'file', attr: { accept: 'image/x-png,image/gif,image/jpeg' } })
   //   .required(),
   user_types: yup.array().required().min(1).max(2).of(yup.string().required()).label("User Types").meta({ type: 'select', multiple: true, key: "USER_TYPES" }).default([]),
+  description: yup.string().label("Description").meta({}).required(),
+
 });
 
 

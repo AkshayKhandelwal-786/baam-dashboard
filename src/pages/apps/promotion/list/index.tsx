@@ -107,14 +107,14 @@ const defaultColumns: PlanListColumn[] = [
 const schema = yup.object().shape({
   title: yup.string().label("Title").meta({}).required(),
   offer_point: yup.number().label("Offer Point").meta({}).required(),
-  offer_status: yup.string().label("Status").meta({ type: 'select', key: "STATUS" }).required(),
+  offer_status: yup.string().label("Status").meta({ type: 'select', key: "STATUS" }).required().default(''),
   file: yup
           .mixed().label("Image")
           .meta({ type: 'file', attr: { accept: 'image/x-png,image/jpeg' } })
           .required(),
 
   description: yup.string().label("Description").meta({}).required(),
-  expire_at: yup.date().label('Expire At').meta({}).optional(),
+  expiry_date: yup.date().nullable().optional().default(null), // ✅ FIXED
 });
 
 
@@ -221,7 +221,13 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
 
   const onSubmit = async () => {
     const bodyData = getValues() as any
-
+    if(bodyData.expiry_date == null)
+    {
+      bodyData.expiry_date = '';
+    }
+    if (typeof bodyData.file == "string") {
+      delete bodyData.file;
+    }
     await store.add(bodyData)
     handleEditClose()
   }
@@ -382,7 +388,7 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
 
                     if (field.meta?.type == 'select') {
 
-                      if (field.meta?.key == 'OFFER_STATUS') {
+                      if (field.meta?.key == 'STATUS') {
                         field.oneOf = ['ACTIVE', 'INACTIVE']
                       }
                     }
@@ -500,16 +506,18 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
                                 }
 
                                 if (type === 'date') {
+                                  // Set value to null if it's undefined or empty
                                   return (
                                     <EditableDatePicker
                                       label={label}
-                                      value={value}
+                                      value={value} // Ensure no default date is selected
                                       onChange={(date: Date) => {
                                         setValue(fieldName as any, format(new Date(date), 'yyyy-MM-dd'))
                                       }}
                                     />
-                                  )
+                                  );
                                 }
+                            
                               } catch (e) {
                                 console.error(fieldName)
                                 return <></>

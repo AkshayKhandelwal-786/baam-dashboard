@@ -43,27 +43,21 @@ const useQrStore = create(
             qr: { page, size, search, paginate }
           } = get()
 
-          toast.promise(
-            QrService.list({
+          try {
+            const res = await QrService.list({
               query: { page: `${page}`, size: `${size}` }
-            }),
-            {
-              loading: 'fetching...',
-              success: res => {
-                set(prev => ({
-                  qr: {
-                    ...prev.qr,
-                    list: res?.data,
-                    total: res?.meta?.total
-                  }
-                }))
-                return res?.message || 'fetched'
-              },
-              error: err => {
-                return err?.message?.message
+            })
+          
+            set(prev => ({
+              qr: {
+                ...prev.qr,
+                list: res?.data,
+                total: res?.meta?.total
               }
-            }
-          )
+            }))
+          } catch (err: any) {
+            console.error('Fetch error:', err?.message || err)
+          }
         },
         paginate: ({
           page,
@@ -131,7 +125,7 @@ const useQrStore = create(
             loading: id ? 'Updating' : 'Adding',
             success: res => {
               useQrStore.getState().get.paginate({})
-              return res?.message
+              return id ? 'QR updated successfully.' : 'QR added successfully.'
             },
             error: err => {
               return err?.message
@@ -148,7 +142,7 @@ const useQrStore = create(
           loading: 'deleting',
           success: res => {
             useQrStore.getState().get.paginate({})
-            return res?.message
+            return 'QR deleted successfully'
           },
           error: err => {
             return err?.message

@@ -315,6 +315,7 @@ export type QrData = {
       requestBody: {
         points: string | number
         user_types: Array<string>
+        description: string
       }
 
       query?: {}
@@ -324,6 +325,7 @@ export type QrData = {
       requestBody: {
         points: string | number
         user_types: Array<string>
+        description: string
       }
 
       query: {
@@ -367,6 +369,7 @@ export type QrData = {
         points: number
         url: string
         code: string
+        description: string
         user_types: Array<string>
         createdAt: string
         updatedAt: string
@@ -380,6 +383,7 @@ export type QrData = {
         points: number
         url: string
         code: string
+        description: string
         user_types: Array<string>
         createdAt: string
         updatedAt: string
@@ -477,7 +481,6 @@ export type RewardData = {
         benefits: string
         details: string
         tnc: string
-        discount: number
         image: Blob | File
         expire_at: string
         qr: Blob | File
@@ -535,7 +538,6 @@ export type RewardData = {
         benefits: Array<string>
         details: string
         tnc: string
-        discount: number
         image: string
         expire_at: string
         qr: string
@@ -555,7 +557,6 @@ export type RewardData = {
         benefits: Array<string>
         details: string
         tnc: string
-        discount: number
         image: string
         expire_at: string
         qr: string
@@ -1218,20 +1219,14 @@ export type PromotionData = {
     }
     Update: {
       authorization?: string
-      formData: {
+      requestBody: {
         title: string
-        label: string
-        benefits: string
-        details: string
-        tnc: string
-        discount: number
-        image: Blob | File
-        expire_at: string
-        qr: Blob | File
-        points: number
-        user_types: string
+        offer_point: number
+        offer_status: string
+        description: string
+        expiry_date: string
+        file: string
       }
-
       query: {
         id: string
       }
@@ -1298,16 +1293,11 @@ export type PromotionData = {
       data: {
         _id: string
         title: string
-        label: string
-        benefits: Array<string>
-        details: string
-        tnc: string
-        discount: number
-        image: string
-        expire_at: string
-        qr: string
-        points: number
-        user_types: Array<string>
+        offer_point: number
+        offer_status: string
+        description: string
+        expiry_date: string
+        file: string
         createdAt: string
         updatedAt: string
       }

@@ -47,7 +47,6 @@ const AboutUs = () => {
             const response = await PageService.create({ requestBody: requestData });
             
             if (response?.status) {
-                console.log("sdfsdfrong!");
                 get.list(); // Refresh the list after updating
             } else {
                 console.log("Something went wrong!");

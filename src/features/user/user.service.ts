@@ -38,28 +38,21 @@ const useUserStore = create(
           const {
             astrologer: { page, size, search, paginate }
           } = get()
-
-          toast.promise(
-            UserService.list({
-              query: { page: `${page}`, size: `${size}` }
-            }),
-            {
-              loading: 'fetching...',
-              success: res => {
-                set(prev => ({
-                  astrologer: {
-                    ...prev.astrologer,
-                    list: res?.data,
-                    total: res?.meta?.total
-                  }
-                }))
-                return res?.message || 'fetched'
-              },
-              error: err => {
-                return err?.message?.message
-              }
+          try {
+              const res = await UserService.list({
+                query: { page: `${page}`, size: `${size}` }
+              })
+            
+              set(prev => ({
+                astrologer: {
+                  ...prev.astrologer,
+                  list: res?.data,
+                  total: res?.meta?.total
+                }
+              }))
+            } catch (err: any) {
+              console.error('Fetch error:', err?.message || err)
             }
-          )
         },
         paginate: ({
           page,

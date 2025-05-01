@@ -601,6 +601,19 @@ export class CataloguesService {
       mediaType: 'application/json'
     })
   }
+
+  public static delete(data: CataloguesData['payloads']['Delete']): CancelablePromise<CataloguesData['responses']['Delete']> {
+    const { query, authorization } = data
+    return __request(OpenAPI, {
+      method: 'DELETE',
+      url: '/admin/catalogues/',
+      headers: {},
+      query: {
+        ...query
+      }
+    })
+  }
+
 }
 
 export class RewardHistoryService {
@@ -726,8 +739,6 @@ export class PromotionService {
     })
   }
 
-
-
   /**
    * @returns any Reward Response
    * @throws ApiError
@@ -741,6 +752,20 @@ export class PromotionService {
       query: {
         ...query
       }
+    })
+  }
+
+  public static update(data: PromotionData['payloads']['Update']): CancelablePromise<PromotionData['responses']['Update']> {
+    const { query, requestBody, authorization } = data
+    return __request(OpenAPI, {
+      method: 'PUT',
+      url: '/admin/promotion/',
+      headers: {},
+      query: {
+        ...query
+      },
+      body: requestBody,
+      mediaType: 'application/json'
     })
   }
 }

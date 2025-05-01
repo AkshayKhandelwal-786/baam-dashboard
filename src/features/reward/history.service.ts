@@ -29,27 +29,22 @@ const useRewardHistoryStore = create(
                         history: { page, size, search, paginate, user_id }
                     } = get()
 
-                    toast.promise(
-                        RewardHistoryService.list({
+
+                    try {
+                        const res = await RewardHistoryService.list({
                             query: { page: `${page}`, size: `${size}`, user: `${user_id}` }
-                        }),
-                        {
-                            loading: 'fetching...',
-                            success: res => {
-                                set(prev => ({
-                                    history: {
-                                        ...prev.history,
-                                        list: res?.data,
-                                        total: res?.meta?.total
-                                    }
-                                }))
-                                return res?.message || 'fetched'
-                            },
-                            error: err => {
-                                return err?.message?.message
+                        })
+                      
+                        set(prev => ({
+                            history: {
+                                ...prev.history,
+                                list: res?.data,
+                                total: res?.meta?.total
                             }
-                        }
-                    )
+                        }))
+                      } catch (err: any) {
+                        console.error('Fetch error:', err?.message || err)
+                      }
                 },
                 paginate: ({
                     page,

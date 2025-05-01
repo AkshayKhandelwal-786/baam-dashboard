@@ -43,27 +43,21 @@ const useRewardStore = create(
             reward: { page, size, search, paginate }
           } = get()
 
-          toast.promise(
-            RewardService.list({
+          try {
+            const res = await RewardService.list({
               query: { page: `${page}`, size: `${size}` }
-            }),
-            {
-              loading: 'fetching...',
-              success: res => {
-                set(prev => ({
-                  reward: {
-                    ...prev.reward,
-                    list: res?.data,
-                    total: res?.meta?.total
-                  }
-                }))
-                return res?.message || 'fetched'
-              },
-              error: err => {
-                return err?.message?.message
+            })
+          
+            set(prev => ({
+              reward: {
+                ...prev.reward,
+                list: res?.data,
+                total: res?.meta?.total
               }
-            }
-          )
+            }))
+          } catch (err: any) {
+            console.error('Fetch error:', err?.message || err)
+          }
         },
         paginate: ({
           page,
@@ -136,7 +130,7 @@ const useRewardStore = create(
             loading: id ? 'Updating' : 'Adding',
             success: res => {
               useRewardStore.getState().get.paginate({})
-              return res?.message
+              return id ? 'Reward updated successfully.' : 'Reward added successfully.'
             },
             error: err => {
               return err?.message
@@ -153,7 +147,7 @@ const useRewardStore = create(
           loading: 'deleting',
           success: res => {
             useRewardStore.getState().get.paginate({})
-            return res?.message
+            return "Reward deleted successfully"
           },
           error: err => {
             return err?.message

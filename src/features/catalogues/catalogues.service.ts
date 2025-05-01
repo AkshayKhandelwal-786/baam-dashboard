@@ -30,27 +30,21 @@ const useCataloguesStore = create(
             astrologer: { page, size, search, paginate }
           } = get()
 
-          toast.promise(
-            CataloguesService.list({
+          try {
+            const res = await CataloguesService.list({
               query: { page: `${page}`, size: `${size}` }
-            }),
-            {
-              loading: 'fetching...',
-              success: res => {
-                set(prev => ({
-                  astrologer: {
-                    ...prev.astrologer,
-                    list: res?.data,
-                    total: res?.meta?.total
-                  }
-                }))
-                return res?.message || 'fetched'
-              },
-              error: err => {
-                return err?.message?.message
+            })
+          
+            set(prev => ({
+              astrologer: {
+                ...prev.astrologer,
+                list: res?.data,
+                total: res?.meta?.total
               }
-            }
-          )
+            }))
+          } catch (err: any) {
+            console.error('Fetch error:', err?.message || err)
+          }
         },
         paginate: ({
           page,
@@ -116,7 +110,7 @@ const useCataloguesStore = create(
             loading: id ? 'Updating' : 'Adding',
             success: res => {
                 useCataloguesStore.getState().get.paginate({})
-              return res?.message
+              return "Catalogue added successfully"
             },
             error: err => {
               return err?.message
@@ -134,7 +128,7 @@ const useCataloguesStore = create(
           loading: 'deleting',
           success: res => {
             useCataloguesStore.getState().get.paginate({})
-            return res?.message
+            return "Catalogue deleted successfully."
           },
           error: err => {
             return err?.message

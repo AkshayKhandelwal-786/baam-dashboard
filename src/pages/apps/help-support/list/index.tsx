@@ -47,7 +47,6 @@ const AboutUs = () => {
             const response = await PageService.create({ requestBody: requestData });
             
             if (response?.status) {
-                console.log("sdfsdfrong!");
                 get.list(); // Refresh the list after updating
             } else {
                 console.log("Something went wrong!");
@@ -62,7 +61,7 @@ const AboutUs = () => {
         <div className="wrapper">
             <Card className="shadow-sm border-0 mt-2">
                 <CardBody>
-                    <h3>About Us</h3>
+                    <h3>Help & Support</h3>
                     <Form onSubmit={handleSubmit}>
                         <div className="my-3">
                             <JoditEditor
