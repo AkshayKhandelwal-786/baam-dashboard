@@ -119,7 +119,7 @@ const schema = yup.object().shape({
   label: yup.string().label("Label").meta({}).required(),
   details: yup.string().label("Details").meta({}).required(),
   tnc: yup.string().label("T&C").meta({}).required(),
-  expire_at: yup.date().label('Expire At').meta({}).optional(),
+  expire_at: yup.date().label('Expire At').nullable().optional().default(null),
   image: yup
     .mixed().label("Image")
     .meta({ type: 'file', attr: { accept: 'image/x-png,image/gif,image/jpeg' } })
@@ -269,6 +269,12 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
 
     let _benefits = benefits.filter(f => f)
 
+    if(bodyData.expire_at == null)
+      {
+        bodyData.expire_at = '';
+      }
+
+      
     if (!_benefits.length) {
       _benefits = []
     }

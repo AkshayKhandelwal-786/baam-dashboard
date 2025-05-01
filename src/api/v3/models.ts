@@ -512,7 +512,6 @@ export type RewardData = {
         benefits: Array<string>
         details: string
         tnc: string
-        discount: number
         image: string
         expire_at: string
         qr: string

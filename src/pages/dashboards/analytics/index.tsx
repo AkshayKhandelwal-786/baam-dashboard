@@ -29,8 +29,15 @@ const AnalyticsDashboard = () => {
         <Grid item xs={12} md={12}>
           <AnalyticsTransactionsCard />
         </Grid>
-        
-       
+        <Grid item xs={12} md={8}>
+          <AnalyticsDepositWithdraw />
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <AnalyticsSalesByCountries />
+        </Grid>
+        <Grid item xs={12} md={12} lg={8}>
+          <AnalyticsTable />
+        </Grid>
       </Grid>
     </ApexChartWrapper>
   )

@@ -14,66 +14,28 @@ import { ThemeColor } from 'src/@core/layouts/types'
 // ** Custom Components Imports
 import OptionsMenu from 'src/@core/components/option-menu'
 import CustomAvatar from 'src/@core/components/mui/avatar'
+import { Avatar } from '@mui/material'
+import useDashboardStore from 'src/features/dashboard/dashboard.service';
+import { useEffect } from 'react'
 
 interface DataType {
+  _id: string
   title: string
-  sales: string
-  trendDir: string
-  subtitle: string
-  avatarText: string
-  trendNumber: string
-  avatarColor: ThemeColor
+  label: string
+  image: string
+  points: string
+  status: string
 }
 
-const data: DataType[] = [
-  {
-    sales: '894k',
-    trendDir: 'up',
-    subtitle: 'USA',
-    title: '$8,656k',
-    avatarText: 'US',
-    trendNumber: '25.8%',
-    avatarColor: 'success'
-  },
-  {
-    sales: '645k',
-    subtitle: 'UK',
-    trendDir: 'down',
-    title: '$2,415k',
-    avatarText: 'UK',
-    trendNumber: '6.2%',
-    avatarColor: 'error'
-  },
-  {
-    sales: '148k',
-    title: '$865k',
-    trendDir: 'up',
-    avatarText: 'IN',
-    subtitle: 'India',
-    trendNumber: '12.4%',
-    avatarColor: 'warning'
-  },
-  {
-    sales: '86k',
-    title: '$745k',
-    trendDir: 'down',
-    avatarText: 'JA',
-    subtitle: 'Japan',
-    trendNumber: '11.9%',
-    avatarColor: 'secondary'
-  },
-  {
-    sales: '42k',
-    title: '$45k',
-    trendDir: 'up',
-    avatarText: 'KO',
-    subtitle: 'Korea',
-    trendNumber: '16.2%',
-    avatarColor: 'error'
-  }
-]
 
 const AnalyticsSalesByCountries = () => {
+  const { dashboardSummary, getSummary } = useDashboardStore();
+
+  useEffect(() => {
+    getSummary();
+  }, []);
+
+
   return (
     <Card>
       <CardHeader
@@ -87,73 +49,38 @@ const AnalyticsSalesByCountries = () => {
         }
       />
       <CardContent sx={{ pt: theme => `${theme.spacing(2)} !important` }}>
-        {data.map((item: DataType, index: number) => {
-          return (
-            <Box
-              key={item.title}
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                ...(index !== data.length - 1 ? { mb: 6.25 } : {})
-              }}
-            >
-              <CustomAvatar
-                skin='light'
-                color={item.avatarColor}
-                sx={{ width: 38, height: 38, mr: 3, fontSize: '1rem' }}
-              >
-                {item.avatarText}
-              </CustomAvatar>
-
-              <Box
-                sx={{
-                  width: '100%',
-                  display: 'flex',
-                  flexWrap: 'wrap',
-                  alignItems: 'center',
-                  justifyContent: 'space-between'
-                }}
-              >
-                <Box sx={{ mr: 2, display: 'flex', flexDirection: 'column' }}>
-                  <Box sx={{ display: 'flex' }}>
-                    <Typography sx={{ mr: 0.5, fontWeight: 600, letterSpacing: '0.25px' }}>{item.title}</Typography>
-                    <Box
-                      sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        '& svg': { fontWeight: 600, color: item.trendDir === 'down' ? 'error.main' : 'success.main' }
-                      }}
-                    >
-                      <Icon icon={item.trendDir === 'down' ? 'mdi:chevron-down' : 'mdi:chevron-up'} />
-                      <Typography
-                        variant='caption'
-                        sx={{
-                          fontWeight: 600,
-                          lineHeight: 1.5,
-                          color: item.trendDir === 'down' ? 'error.main' : 'success.main'
-                        }}
-                      >
-                        {item.trendNumber}
-                      </Typography>
-                    </Box>
-                  </Box>
-                  <Typography variant='caption' sx={{ lineHeight: 1.5 }}>
-                    {item.subtitle}
-                  </Typography>
-                </Box>
-
-                <Box sx={{ display: 'flex', textAlign: 'end', flexDirection: 'column' }}>
-                  <Typography sx={{ fontWeight: 600, fontSize: '0.875rem', lineHeight: 1.72, letterSpacing: '0.22px' }}>
-                    {item.sales}
-                  </Typography>
-                  <Typography variant='caption' sx={{ lineHeight: 1.5 }}>
-                    Sales
-                  </Typography>
-                </Box>
-              </Box>
-            </Box>
-          )
-        })}
+        {dashboardSummary.reward.map((user: DataType, index) => (
+             <Box
+             key={user._id as any}
+             sx={{ display: 'flex', alignItems: 'center', mb: index !== dashboardSummary.users.length - 1 ? 6 : 0 }}
+           >
+             <Box sx={{ minWidth: 38, display: 'flex', justifyContent: 'center' }}>
+               <Avatar
+                 alt={user.title}
+                 src={user.image}
+                 sx={{ width: 40, height: 40 }}
+               />
+             </Box>
+             <Box
+               sx={{
+                 ml: 4,
+                 width: '100%',
+                 display: 'flex',
+                 flexWrap: 'wrap',
+                 alignItems: 'center',
+                 justifyContent: 'space-between'
+               }}
+             >
+               <Box sx={{ mr: 2, display: 'flex', flexDirection: 'column' }}>
+                 <Typography sx={{ fontWeight: 600, fontSize: '0.875rem' }}>{user.title}</Typography>
+                 <Typography variant='caption'>{user.label}</Typography>
+               </Box>
+               <Typography variant='subtitle2' sx={{ fontWeight: 600, color: 'primary.main' }}>
+                 {user.points} Points
+               </Typography>
+             </Box>
+           </Box>
+          ))}
       </CardContent>
     </Card>
   )

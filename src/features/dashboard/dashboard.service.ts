@@ -17,6 +17,8 @@ const useDashboardStore = create(
           total_rewards: 0,
           total_promotion: 0,
           users : [],
+          promotion : [],
+          reward : [],
         }
       },
       (set) => ({
