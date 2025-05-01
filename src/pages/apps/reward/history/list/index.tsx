@@ -277,7 +277,7 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
                             }}
                             onPaginationModelChange={({ page, pageSize }) => {
                                 if (page == store.history.page && pageSize == store.history.size) return
-                                store.get.paginate({ page: page + 1, size: pageSize })
+                                store.get.paginate({ page: page, size: pageSize })
                             }}
                             onColumnOrderChange={e => {
                                 console.log('e: ', e)
