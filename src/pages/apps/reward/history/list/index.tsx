@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 
 // ** Next Import
 import Link from 'next/link'
+import dayjs from 'dayjs'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -134,14 +135,14 @@ const defaultColumns: PlanListColumn[] = [
     },
     {
         flex: 0.15,
-        field: 'expire_at',
+        field: 'createdAt',
         minWidth: 150,
         headerName: 'Expires At',
         renderCell: ({ row }: CellType) => (
             <Typography variant='body2'>
-                {new Date(row.expire_at).toLocaleDateString()}
+              {dayjs(row.createdAt).format('DD MMM YYYY')}
             </Typography>
-        ),
+        )
     },
     {
         flex: 0.2,

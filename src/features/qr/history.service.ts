@@ -31,29 +31,25 @@ const useQrHistoryStore = create(
                         history: { page, size, search, paginate, user_id }
                     } = get()
 
-                    toast.promise(
-                        QrHistoryService.list({
+                    try {
+                        const res = await QrHistoryService.list({
                             query: { page: `${page}`, size: `${size}`, user: `${user_id}` }
-                        }),
-                        {
-                            loading: 'fetching...',
-                            success: (res: any) => {
-
-                                set(prev => ({
-                                    history: {
-                                        ...prev.history,
-                                        list: res == 'NOT_FOUND' ? [] : res?.data,
-                                        total: res?.meta?.total
-                                    }
-                                }))
-                                return res?.message || 'fetched'
-                            },
-                            error: err => {
-
-                                return err?.message?.message
+                        })
+                
+                        set(prev => ({
+                            history: {
+                                ...prev.history,
+                                list: res?.status === false ? [] : res?.data,
+                                total: res?.meta?.total
                             }
-                        }
-                    )
+                        }))
+
+                        return res?.message || 'fetched'
+                    } catch (err: any) {
+                        console.error(err)
+                        return err?.message?.message
+                    }
+                
                 },
                 paginate: ({
                     page,

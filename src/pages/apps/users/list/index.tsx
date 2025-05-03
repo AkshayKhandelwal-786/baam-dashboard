@@ -137,7 +137,7 @@ const defaultColumns: PlanListColumn[] = [
     minWidth: 40,//
     field: 'dob',
     headerName: 'Status',
-    renderCell: ({ row }: any) => <Typography variant='body2'>{row.active ? "ACTIVE" : "IN-ACTIVE"}</Typography>
+    renderCell: ({ row }: any) => <Typography variant='body2'>{row.status}</Typography>
   },
   // {
   //   flex: 0.1,
