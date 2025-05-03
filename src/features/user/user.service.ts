@@ -152,7 +152,7 @@ const useUserStore = create(
             loading: id ? 'Updating' : 'Adding',
             success: res => {
               useUserStore.getState().get.paginate({})
-              return res?.message
+              return id ? 'User updated successfully.' : 'User added successfully.'
             },
             error: err => {
               return err?.message
@@ -169,7 +169,7 @@ const useUserStore = create(
           loading: 'deleting',
           success: res => {
             useUserStore.getState().get.paginate({})
-            return res?.message
+            return "Users deleted successfully."
           },
           error: err => {
             return err?.message

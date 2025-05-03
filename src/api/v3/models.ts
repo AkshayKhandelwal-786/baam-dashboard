@@ -602,9 +602,15 @@ export type UserData = {
       authorization?: string
       requestBody: {
         name: string
-        permissions: unknown
-        super_admin: boolean
-        order: number
+        phone: number
+        email: string
+        address: string
+        pincode: string
+        state: string
+        city: string
+        gst_number: string
+        category: string
+        status: string
       }
 
       query?: {}
@@ -613,8 +619,15 @@ export type UserData = {
       authorization?: string
       requestBody: {
         name: string
-        permissions: unknown
-        super_admin: boolean
+        phone: number
+        email: string
+        address: string
+        pincode: string
+        state: string
+        city: string
+        gst_number: string
+        category: string
+        status: string
       }
 
       query: {
@@ -657,7 +670,8 @@ export type UserData = {
         type?: string
         dob?: string
         photo?: string
-        points?: number
+        points?: string
+        gst_number?: string,
         total_points_earned?: number
         token?: string
       }>
@@ -672,17 +686,16 @@ export type UserData = {
       status: boolean
       message: string
       data: {
-        _id?: string
-        name?: string
-        email?: string
-        phone?: string
-        gender?: string
-        type?: string
-        dob?: string
-        photo?: string
-        points?: number
-        total_points_earned?: number
-        token?: string
+        name: string
+        phone: number
+        email: string
+        address: string
+        pincode: string
+        state: string
+        city: string
+        gst_number?: string,
+        category: string
+        status: string
       }
     }
     Update: {
@@ -690,16 +703,16 @@ export type UserData = {
       message: string
       data: {
         _id?: string
-        name?: string
-        email?: string
-        phone?: string
-        gender?: string
-        type?: string
-        dob?: string
-        photo?: string
-        points?: number
-        total_points_earned?: number
-        token?: string
+        name: string
+        phone: number
+        email: string
+        address: string
+        pincode: string
+        state: string
+        city: string
+        gst_number: string
+        category: string
+        status: string
       }
     }
     Delete: {

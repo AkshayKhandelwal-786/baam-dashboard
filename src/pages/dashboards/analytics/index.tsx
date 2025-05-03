@@ -35,9 +35,9 @@ const AnalyticsDashboard = () => {
         <Grid item xs={12} md={4}>
           <AnalyticsSalesByCountries />
         </Grid>
-        <Grid item xs={12} md={12} lg={8}>
+        {/* <Grid item xs={12} md={12} lg={8}>
           <AnalyticsTable />
-        </Grid>
+        </Grid> */}
       </Grid>
     </ApexChartWrapper>
   )

@@ -50,6 +50,7 @@ import CustomAvatar from 'src/@core/components/mui/avatar'
 import { getInitials } from 'src/@core/utils/get-initials'
 import Chip from 'src/@core/components/mui/chip'
 import Router from 'next/router'
+import { status } from 'nprogress'
 interface CellType {
   row: User
 }
@@ -174,7 +175,16 @@ const defaultColumns: PlanListColumn[] = [
 ]
 
 const schema = yup.object().shape({
-  name: yup.string().label('Name').meta({}).required()
+  name: yup.string().label('Name').meta({}).required(),
+  phone: yup.number().label('Mobile Number').meta({}).required(),
+  email: yup.string().label('Email').email().meta({}).required(),
+  status: yup.string().label("Status").meta({ type: 'select', key: "STATUS" }).required(),
+  category: yup.string().label("Category").meta({ type: 'select', key: "CATEGORY" }).nullable().default(''),
+  address: yup.string().label('Address').meta({}).nullable().optional(),
+  pincode: yup.number().label('Pincode').meta({}).nullable().optional(),
+  state: yup.string().label('State').meta({}).nullable().optional(),
+  city: yup.string().label('City').meta({}).nullable().optional(),
+  gst_number: yup.string().label('GST Number').meta({}).nullable().optional(),
 })
 const defaultValues = schema.getDefault()
 const describedSchema = schema.describe()
@@ -244,37 +254,40 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
       minWidth: 200,
       sortable: false,
       field: 'actions',
-      headerName: 'Distributor Details',
+      headerName: 'Actions',
       headerAlign: "center",
-      renderCell: ({ row }: any) => ((row?.company_name && row?.gst_number) ?
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: "space-between", width: "100%" }}>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-
-            <CustomAvatar
-              skin='light'
-              color={'primary'}
-              sx={{ mr: 3, width: 30, height: 30, fontSize: '.875rem' }}
-            >
-              {getInitials(row?.company_name || "")}
-            </CustomAvatar>
-
-            <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
-              <LinkStyled href={`#`} onClick={e => e.preventDefault()} >{row?.company_name || ""}</LinkStyled>
-              <Typography noWrap variant='caption'>
-                {`${row?.gst_number || ""}`}
-              </Typography>
-            </Box>
-          </Box>
-          {
-            !row?.active ?
-              <>
-
-                <Box sx={{ width: 10 }} ></Box>
-                <Button variant='contained' size='small' onClick={() => store.approveDistributor(row?._id)} >Approve</Button>
-              </>
-              : <></>
-          }
-        </Box> : "NA"
+      renderCell: ({ row }: any) => (
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          {update && (
+            <Tooltip title={`Edit ${page_title}`}>
+              <IconButton
+                size='small'
+                onClick={() => {
+                  store.select(row?._id)
+                  for (let key in defaultValues) {
+                    setValue(key as any, row[key])
+                  }
+                  handleEditClickOpen()
+                }}
+              >
+                <Icon icon='mdi:edit-outline' fontSize={20} />
+              </IconButton>
+            </Tooltip>
+          )}
+          {del && (
+            <Tooltip title={`Delete ${page_title}`}>
+              <IconButton
+                size='small'
+                onClick={() => {
+                  store.select(row?._id)
+                  store.delete()
+                }}
+              >
+                <Icon icon='mdi:delete-outline' fontSize={20} />
+              </IconButton>
+            </Tooltip>
+          )}
+        </Box>
       )
     }
   ]
@@ -354,7 +367,7 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
                     placeholder={`Search ${page_title}`}
                     onChange={e => handleFilter(e.target.value)}
                   />
-                  {/* <Button
+                  <Button
                     sx={{ mb: 2 }}
                     variant='contained'
                     onClick={() => {
@@ -362,7 +375,7 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
                     }}
                   >
                     Create {page_title}
-                  </Button> */}
+                  </Button>
                 </Box>
               )}
             </Box>
@@ -440,12 +453,20 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
                     }
 
                     if (field.meta?.type == 'select') {
-                      if (field.meta?.key == 'GENDERS') {
-                        field.oneOf = ['MALE', 'FEMALE'].map(item => ({
+                      if (field.meta?.key == 'STATUS') {
+                        field.oneOf = ['Active', 'Inactive'].map(item => ({
                           value: item,
                           label: item
                         }))
                       }
+                      if (field.meta?.key == 'CATEGORY') {
+                        field.oneOf = ['Customer', 'Group'].map(item => ({
+                          value: item,
+                          label: item
+                        }))
+                      }
+
+                      
                     }
 
                     if (field.type == 'boolean') {
@@ -462,7 +483,7 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
                     }
 
                     return (
-                      <Grid item xs={12} sm={12}>
+                      <Grid item xs={12} sm={6}>
                         <FormControl fullWidth>
                           <Controller
                             name={fieldName as any}
