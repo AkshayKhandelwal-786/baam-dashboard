@@ -128,6 +128,8 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
 
   // ** Hooks
   const store = usePromotionStore()
+  const [filteredRows, setFilteredRows] = useState(store.reward.list);
+  const [filterValue, setFilterValue] = useState('');
 
   const {
     control,
@@ -149,9 +151,19 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
     init()
   }, [])
 
-  const handleFilter = (val: string) => {
-    store.get.paginate({ search: val })
-  }
+  const handleFilter = (val : any) => {
+    setFilterValue(val);
+    const filteredData = store.reward.list.filter(row => 
+      row.title.toLowerCase().includes(val.toLowerCase())
+    );
+    setFilteredRows(filteredData);
+  };
+  useEffect(() => {
+    if (filterValue === '') {
+      setFilteredRows(store.reward.list);
+    }
+  }, [filterValue, store.reward.list]);
+
 
   // ** Handle Edit dialog
   const handleEditClickOpen = async (doReset?: boolean) => {
@@ -298,7 +310,7 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
                   <TextField
                     size='small'
                     sx={{ mr: 4, mb: 2 }}
-                    placeholder={`Search ${page_title}`}
+                    placeholder={`Search by Title`}
                     onChange={e => handleFilter(e.target.value)}
                   />
                   <Button
@@ -316,7 +328,7 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
             <DataGrid
               autoHeight
               pagination
-              rows={store.reward.list}
+              rows={filteredRows}
               columns={columns}
               getRowId={row => row?._id}
               // checkboxSelection
@@ -328,13 +340,14 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
                 pageSize: store.reward.size
               }}
               onPaginationModelChange={({ page, pageSize }) => {
-                if (page == store.reward.page && pageSize == store.reward.size) return
-                store.get.paginate({ page: page, size: pageSize })
+                if (page === store.reward.page && pageSize === store.reward.size) return;
+                store.get.paginate({ page: page, size: pageSize });
               }}
-              onColumnOrderChange={e => {
-                console.log('e: ', e)
+              onColumnOrderChange={(e) => {
+                console.log('e: ', e);
               }}
               rowCount={store.reward.total}
+      
             />
           </Card>
           {/* Add/Edit Dialog */}

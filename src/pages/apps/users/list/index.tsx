@@ -217,9 +217,26 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
     init()
   }, [])
 
+  const [filterValue, setFilterValue] = useState('');
+  const [filteredRows, setFilteredRows] = useState(store.astrologer.list);
+
+
   const handleFilter = (val: string) => {
-    store.get.paginate({ search: val })
-  }
+    setFilterValue(val);
+
+    const filtered = store.astrologer.list.filter(row =>
+      row.name?.toLowerCase().includes(val.toLowerCase())
+    );
+
+    setFilteredRows(filtered);
+  };
+  useEffect(() => {
+    // Reset to full list when cleared or list changes
+    if (filterValue === '') {
+      setFilteredRows(store.astrologer.list);
+    }
+  }, [filterValue, store.astrologer.list]);
+
 
   // ** Handle Edit dialog
   const handleEditClickOpen = async (doReset?: boolean) => {
@@ -364,7 +381,7 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
                   <TextField
                     size='small'
                     sx={{ mr: 4, mb: 2 }}
-                    placeholder={`Search ${page_title}`}
+                    placeholder={`Search my Name`}
                     onChange={e => handleFilter(e.target.value)}
                   />
                   <Button
@@ -382,7 +399,7 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
             <DataGrid
               autoHeight
               pagination
-              rows={store.astrologer.list}
+              rows={filteredRows}
               columns={columns}
               getRowId={row => row?._id}
               // checkboxSelection
@@ -394,13 +411,10 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
                 pageSize: store.astrologer.size
               }}
               onPaginationModelChange={({ page, pageSize }) => {
-                if (page == store.astrologer.page && pageSize == store.astrologer.size) return
-                store.get.paginate({ page: page, size: pageSize })
+                if (page === store.astrologer.page && pageSize === store.astrologer.size) return;
+                store.get.paginate({ page: page, size: pageSize });
               }}
-              onColumnOrderChange={e => {
-                console.log('e: ', e)
-              }}
-              rowCount={store.astrologer.total}
+              rowCount={store.astrologer.total}      
             />
           </Card>
           {/* Add/Edit Dialog */}

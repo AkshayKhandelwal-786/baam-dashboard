@@ -155,9 +155,25 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
     init()
   }, [])
 
+  const [filterValue, setFilterValue] = useState('');
+  const [filteredRows, setFilteredRows] = useState(store.qr.list);
+
   const handleFilter = (val: string) => {
-    store.get.paginate({ search: val })
-  }
+    setFilterValue(val);
+
+    const filtered = store.qr.list.filter(row =>
+      row.code?.toLowerCase().includes(val.toLowerCase())
+    );
+
+    setFilteredRows(filtered);
+  };
+
+  useEffect(() => {
+    if (filterValue === '') {
+      setFilteredRows(store.qr.list);
+    }
+  }, [filterValue, store.qr.list]);
+
 
   // ** Handle Edit dialog
   const handleEditClickOpen = async (doReset?: boolean) => {
@@ -318,7 +334,7 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
                   <TextField
                     size='small'
                     sx={{ mr: 4, mb: 2 }}
-                    placeholder={`Search ${page_title}`}
+                    placeholder={`Search by code`}
                     onChange={e => handleFilter(e.target.value)}
                   />
                   <Button
@@ -336,7 +352,7 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
             <DataGrid
               autoHeight
               pagination
-              rows={store.qr.list}
+              rows={filteredRows}
               columns={columns}
               getRowId={row => row?._id}
               // checkboxSelection
@@ -348,13 +364,10 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
                 pageSize: store.qr.size
               }}
               onPaginationModelChange={({ page, pageSize }) => {
-                if (page == store.qr.page && pageSize == store.qr.size) return
-                store.get.paginate({ page: page, size: pageSize })
+                if (page === store.qr.page && pageSize === store.qr.size) return;
+                store.get.paginate({ page, size: pageSize });
               }}
-              onColumnOrderChange={e => {
-                console.log('e: ', e)
-              }}
-              rowCount={store.qr.total}
+              rowCount={store.qr.total}      
             />
           </Card>
           {/* Add/Edit Dialog */}
