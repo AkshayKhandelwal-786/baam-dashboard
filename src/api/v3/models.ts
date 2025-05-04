@@ -316,6 +316,7 @@ export type QrData = {
         points: string | number
         user_types: Array<string>
         description: string
+        total_generate_qr: number
       }
 
       query?: {}
@@ -326,6 +327,7 @@ export type QrData = {
         points: string | number
         user_types: Array<string>
         description: string
+        total_generate_qr: number
       }
 
       query: {
@@ -371,6 +373,7 @@ export type QrData = {
         code: string
         description: string
         user_types: Array<string>
+        total_generate_qr: number
         createdAt: string
         updatedAt: string
       }
@@ -384,6 +387,7 @@ export type QrData = {
         url: string
         code: string
         description: string
+        total_generate_qr: number
         user_types: Array<string>
         createdAt: string
         updatedAt: string

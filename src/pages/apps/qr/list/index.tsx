@@ -120,7 +120,7 @@ const schema = yup.object().shape({
   //   .required(),
   user_types: yup.array().required().min(1).max(2).of(yup.string().required()).label("User Types").meta({ type: 'select', multiple: true, key: "USER_TYPES" }).default([]),
   description: yup.string().label("Description").meta({}).required(),
-
+  total_generate_qr: yup.number().max(100).label("Total Generate QR").meta({}).required(),
 });
 
 
@@ -243,6 +243,7 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
 
   const onSubmit = async () => {
     const bodyData = getValues() as any
+    bodyData.total_generate_qr = Number(bodyData.total_generate_qr)
     if (!bodyData.photo || typeof bodyData.photo == "string") {
       delete bodyData.photo;
 
