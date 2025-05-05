@@ -33,7 +33,8 @@ const useQrStore = create(
         size: 10,
         search: null as string | null,
         paginate: true as boolean,
-        filter: null as string | null
+        filter: null as string | null,
+        detail: null as QR | null   
       }
     },
     (set, get) => ({
@@ -98,7 +99,27 @@ const useQrStore = create(
             return
           }
           init()
-        }
+        },
+        detail: async (_id: any) => {
+
+          try {
+            const res = QrService.detail({
+              query: {
+                id: _id
+              },
+            });
+
+            set(prev => ({
+              qr: {
+                ...prev.qr,
+                detail: res?.data,
+              }
+            }))
+
+          } catch (err: any) {
+            console.error('Fetch error:', err?.message || err)
+          }
+        },
       },
       select: (id: any) => set(prev => ({ qr: { ...prev.qr, id: id } })),
       add: async (bodyData: any) => {

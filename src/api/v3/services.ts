@@ -277,6 +277,19 @@ export class QrService {
       }
     })
   }
+
+  public static detail(data: QrData['payloads']['Detail']): CancelablePromise<QrData['responses']['Detail']> {
+    const { query, authorization } = data
+    return __request(OpenAPI, {
+      method: 'GET',
+      url: '/admin/qr/detail',
+      headers: {},
+      query: {
+        ...query
+      }
+    })
+  }
+
 }
 
 export class QrHistoryService {

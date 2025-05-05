@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 // ** Next Import
 import Link from 'next/link'
 import dayjs from 'dayjs'
+import { useRouter } from 'next/router';
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -65,25 +66,25 @@ type PlanListColumn = Omit<GridColDef, 'field'> & { field: keyof QR }
 
 const defaultColumns: PlanListColumn[] = [
 
-  {
-    flex: 0.1,
-    field: 'url',
-    minWidth: 80,
-    headerName: 'image',
-    renderCell: ({ row }: CellType) => (
-      <LinkStyled href={getPublicUrl(row.url, "qr/") + ""} target='_blank' onClick={e => { }} sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }}>
-        <Avatar alt='' src={'' + getPublicUrl(row.url, "qr/")} sx={{ mr: 3 }} />
-      </LinkStyled>
-    )
-  },
+  // {
+  //   flex: 0.1,
+  //   field: 'url',
+  //   minWidth: 80,
+  //   headerName: 'image',
+  //   renderCell: ({ row }: CellType) => (
+  //     <LinkStyled href={getPublicUrl(row.url, "qr/") + ""} target='_blank' onClick={e => { }} sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }}>
+  //       <Avatar alt='' src={'' + getPublicUrl(row.url, "qr/")} sx={{ mr: 3 }} />
+  //     </LinkStyled>
+  //   )
+  // },
 
-  {
-    flex: 0.2,
-    minWidth: 90,
-    field: 'code',
-    headerName: 'code',
-    renderCell: ({ row }: CellType) => <Typography variant='body2'>{row.code}</Typography>
-  },
+  // {
+  //   flex: 0.2,
+  //   minWidth: 90,
+  //   field: 'code',
+  //   headerName: 'code',
+  //   renderCell: ({ row }: CellType) => <Typography variant='body2'>{row.code}</Typography>
+  // },
   {
     flex: 0.2,
     minWidth: 90,
@@ -128,6 +129,7 @@ const defaultValues = schema.getDefault()
 const describedSchema = schema.describe()
 const PlanList = ({ read, write, update, del }: GlobalProps) => {
   const page_title = 'QR'
+  const router = useRouter();
 
   // ** State
   const [openEdit, setOpenEdit] = useState<boolean>(false)
@@ -207,7 +209,7 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
       headerName: 'Actions',
       renderCell: ({ row }: any) => (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          {update && (
+          {/* {update && (
             <Tooltip title={`Edit ${page_title}`}>
               <IconButton
                 size='small'
@@ -222,7 +224,7 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
                 <Icon icon='mdi:edit-outline' fontSize={20} />
               </IconButton>
             </Tooltip>
-          )}
+          )} */}
           {del && (
             <Tooltip title={`Delete ${page_title}`}>
               <IconButton
@@ -237,7 +239,7 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
             </Tooltip>
           )}
 
-          {write && (
+          {/* {write && (
             <Tooltip title={`Copy ${page_title}`}>
               <IconButton
                 size='small'
@@ -251,7 +253,30 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
                 <Icon icon='mdi:content-copy' fontSize={20} />
               </IconButton>
             </Tooltip>
-          )}
+          )} */}
+          {/* <Tooltip title={`Copy ${page_title}`}>
+              <IconButton
+                size='small'
+                onClick={() => {
+                  for (const key in defaultValues) {
+                    setValue(key as any, row[key])
+                  }
+                  handleEditClickOpen()
+                }}
+              >
+                <Icon icon='mdi:printer' fontSize={20} />
+              </IconButton>
+            </Tooltip> */}
+            <Tooltip title={`View QR`}>
+              <IconButton
+                size='small'
+                onClick={() => {
+                  router.push(`/apps/qr/view/${row._id}`);
+                }}
+              >
+                <Icon icon='mdi:eye' fontSize={20} />
+              </IconButton>
+            </Tooltip>
         </Box>
       )
     }

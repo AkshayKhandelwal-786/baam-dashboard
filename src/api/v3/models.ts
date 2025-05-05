@@ -341,6 +341,12 @@ export type QrData = {
         id: string
       }
     }
+    Detail: {
+      authorization?: string
+      query: {
+        id: string
+      }
+    }
   }
 
   responses: {
@@ -404,6 +410,19 @@ export type QrData = {
         user_types: Array<string>
         createdAt: string
         updatedAt: string
+      }
+    }
+    Detail: {
+      status: boolean
+      message: string
+      data: {
+        _id?: string
+        parent_qr_id?: string
+        url?: string
+        points?: number
+        code?: string
+        description?: string
+        user_types?: Array<string>
       }
     }
   }
