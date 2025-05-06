@@ -18,27 +18,34 @@ const useRedeemRequestStore = create(
         size: 10,
         search: null as string | null,
         paginate: true as boolean,
-        user_id: null as string | null
+        filter: null as string | null
       }
     },
     (set, get) => ({
       get: {
         list: async () => {
+
+          const keyword = typeof window !== 'undefined'
+          ? new URLSearchParams(window.location.search).get('keyword') || ''
+          : ''
+
+
           const {
-            history: { page, size, search, paginate, user_id }
+            history: { page, size, search, paginate }
           } = get()
 
 
           try {
             const res = await RedeemRequestService.list({
-              query: { page: `${page}`, size: `${size}`, user: `${user_id}` }
+              query: { page: `${page}`, size: `${size}`, keyword }
             })
           
             set(prev => ({
               history: {
                 ...prev.history,
                 list: res?.data,
-                total: res?.meta?.total
+                total: res?.meta?.total,
+                keyword
               }
             }))
           } catch (err: any) {
@@ -50,13 +57,13 @@ const useRedeemRequestStore = create(
           size,
           search,
           paginate,
-          user_id
+          filter
         }: {
           page?: number
           size?: number
           search?: string
           paginate?: boolean
-          user_id?: string
+          filter?: string
         }) => {
           set(prev => ({ history: { ...prev.history, search: search || '' } }))
 
@@ -69,7 +76,7 @@ const useRedeemRequestStore = create(
                 page: page || prev.history.page,
                 size: size || prev.history.size,
                 search: search || prev.history.search,
-                user_id: user_id || '',
+                filter: filter || '',
                 paginate: paginate ?? true,
               }
             }))

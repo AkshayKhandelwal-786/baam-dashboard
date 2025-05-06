@@ -1106,7 +1106,7 @@ export type RedeemRequestData = {
       query: {
         page: string
         size: string
-        user?: string
+        keyword?: string
       }
     }
     Create: {

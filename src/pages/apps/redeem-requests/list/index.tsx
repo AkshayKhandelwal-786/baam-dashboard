@@ -22,6 +22,7 @@ import Icon from 'src/@core/components/icon';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 import { format } from 'date-fns'
+
 import {
     Autocomplete,
     Avatar,
@@ -126,7 +127,8 @@ const describedSchema = schema.describe()
 
 const PlanList = ({ read, write, update, del }: GlobalProps) => {
     const page_title = 'Redeem Request Status'
-    
+    const router = useRouter()
+
       // ** State
       const [openEdit, setOpenEdit] = useState<boolean>(false)
     
@@ -149,18 +151,25 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
     
       const selectedStatus = watch("type"); // Watch the selected value
 
-      useEffect(() => {
-        const init = async () => {
-          store.get.paginate({ size: 10, page: 0 })
-        }
-        init()
-      }, [])
-    
+      const { keyword } = router.query
+
+
+  
       const handleFilter = (val: string) => {
-        store.get.paginate({ search: val })
+          store.get.paginate({ search: val })
       }
-    
-      // ** Handle Edit dialog
+  
+          
+      useEffect(() => {
+          if (!router?.isReady) return
+          const init = async () => {
+              store.get.paginate({ size: 10, page: 0, ...(keyword == 'undefined' ? {} : { keyword }) } as any)
+              store.get.paginate({ size: 10, page: 0 })
+          }
+          init()
+      }, [router?.isReady, keyword])
+  
+        // ** Handle Edit dialog
       const handleEditClickOpen = async (doReset?: boolean) => {
         if (doReset) {
     
@@ -249,6 +258,23 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
                                 width: '100%',
                             }}
                         >
+                            {write && (
+                                <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
+                                    <TextField
+                                    size='small'
+                                    sx={{ mr: 4, mb: 2 }}
+                                    placeholder='Search by Title'
+                                    onChange={(e) => {
+                                        const searchValue = e.target.value
+                                        if (searchValue) {
+                                        router.push(`/apps/redeem-requests/list/?keyword=${encodeURIComponent(searchValue)}`)
+                                        } else {
+                                        router.push(`/apps/redeem-requests/list/`)
+                                        }
+                                    }}
+                                    />
+                                </Box>
+                            )}
                         </Box>
                         <DataGrid
                             autoHeight
