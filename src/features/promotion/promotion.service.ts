@@ -6,6 +6,7 @@ import toast from 'react-hot-toast'
 import { PromotionData } from 'src/api/v3/models'
 import { PromotionService } from 'src/api/AdminApi'
 import { getBase64 } from 'src/helpers/common'
+import { useRouter } from 'next/router'
 
 export type Promotion = PromotionData['responses']['List']['data'][0]
 
@@ -40,20 +41,28 @@ const usePromotionStore = create(
     (set, get) => ({
       get: {
         list: async () => {
+
+          const keyword = typeof window !== 'undefined'
+            ? new URLSearchParams(window.location.search).get('keyword') || ''
+            : ''
+        
+
+            
           const {
             reward: { page, size, search, paginate }
           } = get()
 
           try {
             const res = await PromotionService.list({
-              query: { page: `${page}`, size: `${size}` }
+              query: { page: `${page}`, size: `${size}`, keyword }
             })
           
             set(prev => ({
               reward: {
                 ...prev.reward,
                 list: res?.data,
-                total: res?.meta?.total
+                total: res?.meta?.total,
+                keyword
               }
             }))
           } catch (err: any) {

@@ -39,7 +39,7 @@ const AnalyticsSalesByCountries = () => {
   return (
     <Card>
       <CardHeader
-        title='Sales by Countries'
+        title='Active Reward'
         titleTypographyProps={{ sx: { lineHeight: '1.2 !important', letterSpacing: '0.31px !important' } }}
         action={
           <OptionsMenu

@@ -1,6 +1,6 @@
 // ** React Imports
 import { useState, useEffect } from 'react'
-
+import { UserType } from 'src/constant/constant'
 // ** Next Import
 import Link from 'next/link'
 
@@ -467,12 +467,8 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
                       }
 
                       if (field.meta?.key == 'USER_TYPES') {
-                        field.oneOf = ['NORMAL', 'DISTRIBUTOR']
+                        field.oneOf = [UserType.normal,UserType.distributor_architect,UserType.dealer,UserType.retailer,UserType.carpenter]
                       }
-
-
-
-
                     }
 
                     if (field.type == 'boolean') {

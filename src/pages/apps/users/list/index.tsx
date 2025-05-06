@@ -194,6 +194,9 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
   // ** State
   const [openEdit, setOpenEdit] = useState<boolean>(false)
 
+  const [openView, setOpenView] = useState<boolean>(false)
+  const [selectedUser, setSelectedUser] = useState<any>(null)
+
   // ** Hooks
   const store = useUserStore()
 
@@ -237,7 +240,10 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
     }
   }, [filterValue, store.astrologer.list]);
 
-
+  const handleViewClickOpen = () => {
+    setOpenView(true)
+  }
+  
   // ** Handle Edit dialog
   const handleEditClickOpen = async (doReset?: boolean) => {
     if (doReset) {
@@ -255,13 +261,8 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
   }
 
   const handleEditClose = () => {
-    set_competition_team_ids([
-      {
-        competition_id: null,
-        team_id: null
-      }
-    ])
-    setOpenEdit(false)
+    
+    setOpenView(false)
   }
 
   const columns: GridColDef[] = [
@@ -304,6 +305,18 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
               </IconButton>
             </Tooltip>
           )}
+          <Tooltip title={`View User Details`}>
+              <IconButton
+                size='small'
+                onClick={() => {
+                  setOpenView(true)
+                  setSelectedUser(row)
+                  handleViewClickOpen()
+                }}
+              >
+                <Icon icon='mdi:eye' fontSize={20} />
+              </IconButton>
+          </Tooltip>
         </Box>
       )
     }
@@ -649,6 +662,67 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
               </Button>
             </DialogActions>
           </Dialog>
+
+
+          <Dialog
+            open={openView}
+            onClose={handleEditClose}
+            aria-labelledby='user-view-edit'
+            aria-describedby='user-view-edit-description'
+            sx={{ '& .MuiPaper-root': { width: '100%', maxWidth: 650 } }}
+          >
+            <DialogTitle
+              id='user-view-edit'
+              sx={{
+                textAlign: 'center',
+                fontSize: '1.5rem !important',
+                px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`],
+                pt: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
+              }}
+            >
+              View User Details
+            </DialogTitle>
+            <DialogContent
+              sx={{
+                pb: theme => `${theme.spacing(8)} !important`,
+                px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`]
+              }}
+            >
+              <DialogContentText
+                variant='body2'
+                id='user-view-edit-description'
+                sx={{ textAlign: 'center', mb: 7 }}
+              ></DialogContentText>
+              {selectedUser && (
+  <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+    <tbody>
+      {Object.entries(selectedUser).map(([key, value]) => (
+        <tr key={key}>
+          <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>
+            {key.charAt(0).toUpperCase() + key.slice(1).replace(/_/g, ' ')}
+          </td>
+          <td style={{ padding: '8px', borderBottom: '1px solid #ccc' }}>
+            {typeof value === 'object' ? JSON.stringify(value) : String(value)}
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+)}
+            </DialogContent>
+            <DialogActions
+              sx={{
+                justifyContent: 'center',
+                px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`],
+                pb: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
+              }}
+            >
+              <Button variant='outlined' color='secondary' onClick={handleEditClose}>
+                Close
+              </Button>
+            </DialogActions>
+          </Dialog>
+
         </Grid>
       </Grid>
     </DatePickerWrapper>

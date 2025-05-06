@@ -125,15 +125,6 @@ const defaultColumns: PlanListColumn[] = [
         renderCell: ({ row }: CellType) => <Typography variant='body2'>{row.details}</Typography>,
     },
     {
-        flex: 0.2,
-        field: 'discount',
-        minWidth: 100,
-        headerName: 'Discount',
-        renderCell: ({ row }: CellType) => (
-            <Typography variant='body2'>{row.discount}%</Typography>
-        ),
-    },
-    {
         flex: 0.15,
         field: 'createdAt',
         minWidth: 150,

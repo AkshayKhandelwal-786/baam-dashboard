@@ -1237,6 +1237,7 @@ export type PromotionData = {
       query: {
         page: string
         size: string
+        keyword: string
       }
     }
     Create: {

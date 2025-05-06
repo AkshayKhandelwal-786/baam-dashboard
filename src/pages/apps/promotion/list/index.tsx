@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 
 // ** Next Import
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -122,6 +123,7 @@ const defaultValues = schema.getDefault()
 const describedSchema = schema.describe()
 const PlanList = ({ read, write, update, del }: GlobalProps) => {
   const page_title = 'Promotion'
+  const router = useRouter()
 
   // ** State
   const [openEdit, setOpenEdit] = useState<boolean>(false)
@@ -144,26 +146,23 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
     resolver: yupResolver(schema)
   })
 
-  useEffect(() => {
-    const init = async () => {
-      store.get.paginate({ size: 10, page: 0 })
-    }
-    init()
-  }, [])
+  const { keyword } = router.query
 
-  const handleFilter = (val : any) => {
-    setFilterValue(val);
-    const filteredData = store.reward.list.filter(row => 
-      row.title.toLowerCase().includes(val.toLowerCase())
-    );
-    setFilteredRows(filteredData);
-  };
-  useEffect(() => {
-    if (filterValue === '') {
-      setFilteredRows(store.reward.list);
-    }
-  }, [filterValue, store.reward.list]);
 
+  
+    const handleFilter = (val: string) => {
+        store.get.paginate({ search: val })
+    }
+
+        
+    useEffect(() => {
+        if (!router?.isReady) return
+        const init = async () => {
+            store.get.paginate({ size: 10, page: 0, ...(keyword == 'undefined' ? {} : { keyword }) } as any)
+            store.get.paginate({ size: 10, page: 0 })
+        }
+        init()
+    }, [router?.isReady, keyword])
 
   // ** Handle Edit dialog
   const handleEditClickOpen = async (doReset?: boolean) => {
@@ -310,8 +309,15 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
                   <TextField
                     size='small'
                     sx={{ mr: 4, mb: 2 }}
-                    placeholder={`Search by Title`}
-                    onChange={e => handleFilter(e.target.value)}
+                    placeholder='Search by Title'
+                    onChange={(e) => {
+                      const searchValue = e.target.value
+                      if (searchValue) {
+                        router.push(`/apps/promotion/list?keyword=${encodeURIComponent(searchValue)}`)
+                      } else {
+                        router.push(`/apps/promotion/list`)
+                      }
+                    }}
                   />
                   <Button
                     sx={{ mb: 2 }}
@@ -328,7 +334,7 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
             <DataGrid
               autoHeight
               pagination
-              rows={filteredRows}
+              rows={store.reward.list}
               columns={columns}
               getRowId={row => row?._id}
               // checkboxSelection
@@ -340,11 +346,11 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
                 pageSize: store.reward.size
               }}
               onPaginationModelChange={({ page, pageSize }) => {
-                if (page === store.reward.page && pageSize === store.reward.size) return;
-                store.get.paginate({ page: page, size: pageSize });
+                  if (page == store.reward.page && pageSize == store.reward.size) return
+                  store.get.paginate({ page: page, size: pageSize })
               }}
-              onColumnOrderChange={(e) => {
-                console.log('e: ', e);
+              onColumnOrderChange={e => {
+                  console.log('e: ', e)
               }}
               rowCount={store.reward.total}
       
