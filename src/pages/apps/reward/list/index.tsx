@@ -260,7 +260,7 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
             </Tooltip>
           )}
 
-          {write && (
+          {/* {write && (
             <Tooltip title={`Copy ${page_title}`}>
               <IconButton
                 size='small'
@@ -275,7 +275,7 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
                 <Icon icon='mdi:content-copy' fontSize={20} />
               </IconButton>
             </Tooltip>
-          )}
+          )} */}
         </Box>
       )
     }
