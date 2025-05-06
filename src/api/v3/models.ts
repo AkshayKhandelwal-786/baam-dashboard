@@ -1056,7 +1056,7 @@ export type RewardHistoryData = {
       query: {
         page: string
         size: string
-        user?: string
+        keyword?: string
       }
     }
   }

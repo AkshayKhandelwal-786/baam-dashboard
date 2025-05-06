@@ -101,14 +101,14 @@ const defaultColumns: PlanListColumn[] = [
         field: 'title',
         minWidth: 100,
         headerName: 'Title',
-        renderCell: ({ row }: CellType) => <Typography variant='body2'>{row.title}</Typography>,
+        renderCell: ({ row }: CellType) => <Typography variant='body2'>{row.reward?.title}</Typography>,
     },
     {
         flex: 0.15,
         field: 'label',
         minWidth: 100,
         headerName: 'Label',
-        renderCell: ({ row }: CellType) => <Typography variant='body2'>{row.label}</Typography>,
+        renderCell: ({ row }: CellType) => <Typography variant='body2'>{row.reward?.label}</Typography>,
     },
     {
         flex: 0.15,
@@ -122,7 +122,7 @@ const defaultColumns: PlanListColumn[] = [
         field: 'details',
         minWidth: 150,
         headerName: 'Details',
-        renderCell: ({ row }: CellType) => <Typography variant='body2'>{row.details}</Typography>,
+        renderCell: ({ row }: CellType) => <Typography variant='body2'>{row.reward?.details}</Typography>,
     },
     {
         flex: 0.15,
@@ -158,52 +158,21 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
     const userStore = useUserStore()
 
     const router = useRouter()
-
-    const { user_id } = router.query
-
-
-    const handleFilter = (val: string) => {
-        store.get.paginate({ search: val })
-    }
+    const { keyword } = router.query
 
     useEffect(() => {
         if (!router?.isReady) return
         const init = async () => {
-            store.get.paginate({ size: 10, page: 0, ...(user_id == 'undefined' ? {} : { user_id }) } as any)
-            userStore.get.paginate({ size: 100, page: 0 })
+            store.get.paginate({ size: 10, page: 0, ...(keyword == 'undefined' ? {} : { keyword }) } as any)
+            store.get.paginate({ size: 10, page: 0 })
         }
         init()
-    }, [router?.isReady, user_id])
-
-
-
-
+    }, [router?.isReady, keyword])
 
     const columns: GridColDef[] = [
         ...defaultColumns,
 
     ]
-
-    // const onSubmit = async () => {
-    //     const bodyData = getValues() as any
-    //     console.log("🚀 ~ onSubmit ~ bodyData:", bodyData)
-
-    //     let _benefits = benefits.filter(f => f)
-
-    //     if (!_benefits.length) return;
-    //     bodyData.benefits = _benefits;
-
-    //     await store.add(bodyData)
-    //     handleEditClose()
-    // }
-
-    // const [competition_team_ids, set_competition_team_ids] = useState([
-    //     {
-    //         competition_id: null,
-    //         team_id: null
-    //     }
-    // ])
-
 
 
     return (
@@ -220,38 +189,24 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
                                 width: '100%',
                             }}
                         >
-                            <Autocomplete
-                                size="small"
-                                options={userStore.astrologer.list}
-
-                                getOptionLabel={(option) => option.name || ''}
-                                isOptionEqualToValue={(option, value) => option._id === value._id}
-                                onChange={(e, value) => {
-                                    // store.get.paginate({ user_id: value?._id })
-                                    if (value?._id) {
-
-                                        router.push(`/apps/reward/history/list?user_id=${value?._id}`)
-                                    } else {
-                                        router.push(`/apps/reward/history/list`)
-
-                                    }
-                                }}
-
-                                renderInput={(params) => (
-                                    <TextField {...params} placeholder="Search User" variant="outlined" />
-                                )}
-                            />
-                            {/* {write && (
+                            {write && (
                                 <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
                                     <TextField
                                         size='small'
                                         sx={{ mr: 4, mb: 2 }}
-                                        placeholder={`Search ${page_title}`}
-                                        onChange={e => handleFilter(e.target.value)}
+                                        placeholder='Search by Title'
+                                        onChange={(e) => {
+                                            const searchValue = e.target.value
+                                            if (searchValue) {
+                                            router.push(`/apps/reward/history/list/?keyword=${encodeURIComponent(searchValue)}`)
+                                            } else {
+                                            router.push(`/apps/reward/history/list/`)
+                                            }
+                                        }}
                                     />
 
                                 </Box>
-                            )} */}
+                            )}
                         </Box>
                         <DataGrid
                             autoHeight
