@@ -190,6 +190,7 @@ const defaultValues = schema.getDefault()
 const describedSchema = schema.describe()
 const PlanList = ({ read, write, update, del }: GlobalProps) => {
   const page_title = 'User'
+  const fileUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   // ** State
   const [openEdit, setOpenEdit] = useState<boolean>(false)
@@ -694,21 +695,29 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
                 sx={{ textAlign: 'center', mb: 7 }}
               ></DialogContentText>
               {selectedUser && (
-  <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-    <tbody>
-      {Object.entries(selectedUser).map(([key, value]) => (
-        <tr key={key}>
-          <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>
-            {key.charAt(0).toUpperCase() + key.slice(1).replace(/_/g, ' ')}
-          </td>
-          <td style={{ padding: '8px', borderBottom: '1px solid #ccc' }}>
-            {typeof value === 'object' ? JSON.stringify(value) : String(value)}
-          </td>
-        </tr>
-      ))}
-    </tbody>
-  </table>
-)}
+                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                  <tbody>
+                    {Object.entries(selectedUser).map(([key, value]) => (
+                      <tr key={key}>
+                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>
+                          {key.charAt(0).toUpperCase() + key.slice(1).replace(/_/g, ' ')}
+                        </td>
+                        <td style={{ padding: '8px', borderBottom: '1px solid #ccc' }}>
+                          {(key === 'passbook_photo' || key === 'profile_picture') ? (
+                            <img
+                            src={`${fileUrl}${value}`}
+                              alt={key}
+                              style={{ maxWidth: '150px', maxHeight: '150px', borderRadius: '8px' }}
+                            />
+                          ) : (
+                            typeof value === 'object' ? JSON.stringify(value) : String(value)
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              )}
             </DialogContent>
             <DialogActions
               sx={{
