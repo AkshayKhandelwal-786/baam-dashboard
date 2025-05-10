@@ -98,7 +98,12 @@ const defaultColumns: PlanListColumn[] = [
     minWidth: 90,
     field: 'user_types',
     headerName: 'user types',
-    renderCell: ({ row }: CellType) => <Typography variant='body2'>{row.user_types.join(" & ")}</Typography>
+    renderCell: ({ row }: CellType) => <Typography variant='body2'>{row.user_types.join(" & ")}</Typography>,
+    sortComparator: (a: string[], b: string[]) => {
+      const aStr = a.join(', ');
+      const bStr = b.join(', ');
+      return aStr.localeCompare(bStr);
+    }  
   },
   {
     flex: 0.2,
@@ -121,7 +126,7 @@ const schema = yup.object().shape({
   //   .required(),
   user_types: yup.array().required().min(1).max(2).of(yup.string().required()).label("User Types").meta({ type: 'select', multiple: true, key: "USER_TYPES" }).default([]),
   description: yup.string().label("Description").meta({}).required(),
-  total_generate_qr: yup.number().max(100).label("Total Generate QR").meta({}).required(),
+  total_generate_qr: yup.number().max(500).label("Total Qr Required").meta({}).required(),
 });
 
 
@@ -359,7 +364,7 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
                   <TextField
                     size='small'
                     sx={{ mr: 4, mb: 2 }}
-                    placeholder={`Search by code`}
+                    placeholder={`Search by User Types`}
                     onChange={e => handleFilter(e.target.value)}
                   />
                   <Button
@@ -453,7 +458,7 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
                       }
 
                       if (field.meta?.key == 'USER_TYPES') {
-                        field.oneOf = [UserType.normal,UserType.distributor_architect,UserType.dealer,UserType.retailer,UserType.carpenter]
+                        field.oneOf = [UserType.architect,UserType.dealer,UserType.retailer,UserType.carpenter]
                       }
 
 

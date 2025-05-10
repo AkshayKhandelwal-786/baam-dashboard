@@ -110,7 +110,13 @@ const defaultColumns: PlanListColumn[] = [
     minWidth: 90,
     field: 'user_types',
     headerName: 'user types',
-    renderCell: ({ row }: CellType) => <Typography variant='body2'>{row.user_types.join(" & ")}</Typography>
+    renderCell: ({ row }: CellType) => <Typography variant='body2'>{row.user_types.join(" & ")}</Typography>,
+    sortComparator: (a: string[], b: string[]) => {
+      const aStr = a.join(', ');
+      const bStr = b.join(', ');
+      return aStr.localeCompare(bStr);
+    }
+  
   }
 ]
 
@@ -128,8 +134,8 @@ const schema = yup.object().shape({
   //   .mixed().label("QR")
   //   .meta({ type: 'file', attr: { accept: 'image/x-png,image/gif,image/jpeg' } })
   //   .required(),
-  points: yup.number().label('Points').meta({}).required(),
-  user_types: yup.array().required().min(1).max(2).of(yup.string().required()).label("User Types").meta({ type: 'select', multiple: true, key: "USER_TYPES" }).default([]),
+  points: yup.number().label('Min Point Eligibility').meta({}).required(),
+  user_types: yup.array().required().min(1).max(4).of(yup.string().required()).label("User Types").meta({ type: 'select', multiple: true, key: "USER_TYPES" }).default([]),
 });
 
 
@@ -467,7 +473,7 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
                       }
 
                       if (field.meta?.key == 'USER_TYPES') {
-                        field.oneOf = [UserType.normal,UserType.distributor_architect,UserType.dealer,UserType.retailer,UserType.carpenter]
+                        field.oneOf = [UserType.architect,UserType.dealer,UserType.retailer,UserType.carpenter]
                       }
                     }
 

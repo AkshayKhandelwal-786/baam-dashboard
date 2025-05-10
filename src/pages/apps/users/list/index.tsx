@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 
 // ** Next Import
 import Link from 'next/link'
-
+import { StateName } from 'src/constant/constant'
 // ** MUI Imports
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
@@ -181,8 +181,14 @@ const schema = yup.object().shape({
   status: yup.string().label("Status").meta({ type: 'select', key: "STATUS" }).required(),
   category: yup.string().label("Category").meta({ type: 'select', key: "CATEGORY" }).nullable().default(''),
   address: yup.string().label('Address').meta({}).nullable().optional(),
-  pincode: yup.number().label('Pincode').meta({}).nullable().optional(),
-  state: yup.string().label('State').meta({}).nullable().optional(),
+  pincode: yup.number()
+  .typeError('Pincode must be a number')
+  .test('len', 'Pincode must be exactly 6 digits', value => {
+    if (value === undefined || value === null) return true; // optional
+    return /^\d{6}$/.test(value.toString());
+  })
+  .meta({}).nullable().optional(),
+  state: yup.string().label("State").meta({ type: 'select', key: "STATE" }).nullable().default(''),
   city: yup.string().label('City').meta({}).nullable().optional(),
   gst_number: yup.string().label('GST Number').meta({}).nullable().optional(),
 })
@@ -262,7 +268,7 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
   }
 
   const handleEditClose = () => {
-    
+    setOpenEdit(false);
     setOpenView(false)
   }
 
@@ -493,6 +499,12 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
                           label: item
                         }))
                       }
+                      if (field.meta?.key == 'STATE') {
+                        field.oneOf = Object.values(StateName).map(item => ({
+                          value: item,
+                          label: item
+                        }))
+                      }
 
                       
                     }
@@ -694,27 +706,136 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
                 id='user-view-edit-description'
                 sx={{ textAlign: 'center', mb: 7 }}
               ></DialogContentText>
+              <h2>User Details</h2>
               {selectedUser && (
                 <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                   <tbody>
-                    {Object.entries(selectedUser).map(([key, value]) => (
-                      <tr key={key}>
+                    <tr>
+                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>Name</td>
                         <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>
-                          {key.charAt(0).toUpperCase() + key.slice(1).replace(/_/g, ' ')}
+                          {selectedUser.name || "-"}
                         </td>
-                        <td style={{ padding: '8px', borderBottom: '1px solid #ccc' }}>
-                          {(key === 'passbook_photo' || key === 'profile_picture') ? (
+                    </tr>
+                    <tr>
+                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>Category</td>
+                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>
+                          {selectedUser.category || "-"}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>Address</td>
+                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>
+                          {selectedUser.address || "-"}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>Pincode</td>
+                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>
+                        {selectedUser.pincode || "-"}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>State</td>
+                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>
+                        {selectedUser.state || "-"}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>City</td>
+                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>
+                        {selectedUser.city || "-"}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>Email</td>
+                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>
+                        {selectedUser.email || "-"}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>Phone Number</td>
+                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>
+                        {selectedUser.phone_code}
+                        {selectedUser.phone || "-"}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>Type</td>
+                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>
+                        {selectedUser.type || "-"}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>Status</td>
+                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>
+                        {selectedUser.status || "-"}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>Points</td>
+                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>
+                        {selectedUser.points || "-"}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>Total Points Earned</td>
+                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>
+                        {selectedUser.total_points_earned || "-"}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>Invite Code</td>
+                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>
+                        {selectedUser.invite_code || "-"}
+                        </td>
+                    </tr>
+                  </tbody>
+                </table>
+              )}
+              <h2>Bank & KYC Details</h2>
+              {selectedUser && (
+                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                  <tbody>
+                    <tr>
+                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>Account Type</td>
+                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>
+                        {selectedUser.account_type || "-"}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>Bank Name</td>
+                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>
+                        {selectedUser.bank_name || "-"}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>Passbook Photo</td>
+                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>
+                          {selectedUser.passbook_photo ? (
                             <img
-                            src={`${fileUrl}${value}`}
-                              alt={key}
+                              src={`${fileUrl}${selectedUser.passbook_photo}`}
+                              alt="Passbook"
                               style={{ maxWidth: '150px', maxHeight: '150px', borderRadius: '8px' }}
                             />
                           ) : (
-                            typeof value === 'object' ? JSON.stringify(value) : String(value)
+                            "-"
                           )}
                         </td>
-                      </tr>
-                    ))}
+                    </tr>
+                    <tr>
+                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>Profile Picture</td>
+                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>
+                          {selectedUser.profile_picture ? (
+                            <img
+                              src={`${fileUrl}${selectedUser.profile_picture}`}
+                              alt="Passbook"
+                              style={{ maxWidth: '150px', maxHeight: '150px', borderRadius: '8px' }}
+                            />
+                          ) : (
+                            "-"
+                          )}
+                        </td>
+                    </tr>
                   </tbody>
                 </table>
               )}
