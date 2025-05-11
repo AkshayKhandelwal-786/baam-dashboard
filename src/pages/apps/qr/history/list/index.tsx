@@ -153,19 +153,28 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
 
 
     const router = useRouter()
-
-    const { user_id } = router.query
+    const { keyword, user_id } = router.query;
 
 
     useEffect(() => {
-        if (!router?.isReady) return
-        const init = async () => {
-            store.get.paginate({ size: 10, page: 0, ...(user_id == 'undefined' ? {} : { user_id }) } as any)
+        if (!router?.isReady) return;
 
-            userStore.get.paginate({ size: 10, page: 0 })
-        }
-        init()
-    }, [router?.isReady, user_id])
+        const init = async () => {
+            const query: any = {
+            size: 10,
+            page: 0,
+            };
+
+            if (user_id && user_id !== 'undefined') query.user_id = user_id;
+            if (keyword && keyword !== 'undefined') query.keyword = keyword;
+
+            store.get.paginate(query);
+            userStore.get.paginate({ size: 10, page: 0 });
+        };
+
+        init();
+    }, [router?.isReady, user_id, keyword]);
+
 
 
 
@@ -206,43 +215,50 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
                     <Card>
                         <Box
                             sx={{
-                                p: 5,
                                 pb: 3,
-                                maxWidth: '400px',
                                 width: '100%',
+                                display: 'flex',
+                                flexWrap: 'wrap',
+                                alignItems: 'center',
+                                justifyContent: 'space-between',
                             }}
                         >
-                            <Autocomplete
+                            <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
+                                <Autocomplete
                                 size="small"
                                 options={userStore.astrologer.list}
-
                                 getOptionLabel={(option) => option.name || ''}
                                 isOptionEqualToValue={(option, value) => option._id === value._id}
                                 onChange={(e, value) => {
-                                    // store.get.paginate({ user_id: value?._id })
-                                    if (value?._id) {
-                                        router.push(`/apps/qr/history/list?user_id=${value?._id}`)
-                                    } else {
-                                        router.push(`/apps/qr/history/list`)
-
-                                    }
+                                    const currentQuery = {
+                                    ...router.query,
+                                    user_id: value?._id || undefined,
+                                    };
+                                    router.push({ pathname: router.pathname, query: currentQuery });
                                 }}
                                 renderInput={(params) => (
                                     <TextField {...params} placeholder="Search User" variant="outlined" />
                                 )}
-                            />
-                            {/* {write && (
-                                <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
-                                    <TextField
-                                        size='small'
-                                        sx={{ mr: 4, mb: 2 }}
-                                        placeholder={`Search ${page_title}`}
-                                        onChange={e => handleFilter(e.target.value)}
-                                    />
-
-                                </Box>
-                            )} */}
+                                sx={{ width: 250 }} // increase width here
+                                />
+                                &nbsp;&nbsp;&nbsp;
+                                <TextField
+                                size="small"
+                                sx={{ mr: 4, mb: 2 }}
+                                placeholder="Search by Code"
+                                defaultValue={keyword || ''}
+                                onChange={(e) => {
+                                    const searchValue = e.target.value;
+                                    const currentQuery = {
+                                    ...router.query,
+                                    keyword: searchValue || undefined,
+                                    };
+                                    router.push({ pathname: router.pathname, query: currentQuery });
+                                }}
+                                />
+                            </Box>
                         </Box>
+
                         <DataGrid
                             autoHeight
                             pagination

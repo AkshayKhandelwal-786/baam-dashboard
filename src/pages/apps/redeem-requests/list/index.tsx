@@ -151,9 +151,7 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
     
       const selectedStatus = watch("type"); // Watch the selected value
 
-      const { keyword } = router.query
-
-
+    const { keyword, name } = router.query
   
       const handleFilter = (val: string) => {
           store.get.paginate({ search: val })
@@ -161,13 +159,24 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
   
           
       useEffect(() => {
-          if (!router?.isReady) return
-          const init = async () => {
-              store.get.paginate({ size: 10, page: 0, ...(keyword == 'undefined' ? {} : { keyword }) } as any)
-              store.get.paginate({ size: 10, page: 0 })
-          }
-          init()
-      }, [router?.isReady, keyword])
+        if (!router?.isReady) return
+
+        const init = async () => {
+            const query: any = {
+            size: 10,
+            page: 0
+            }
+
+            if (keyword && keyword !== 'undefined') query.keyword = keyword
+            if (name && name !== 'undefined') query.name = name
+
+            store.get.paginate(query)
+        }
+
+        init()
+        }, [router?.isReady, keyword, name])
+
+
   
         // ** Handle Edit dialog
       const handleEditClickOpen = async (doReset?: boolean) => {
@@ -252,10 +261,12 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
                     <Card>
                         <Box
                             sx={{
-                                p: 5,
                                 pb: 3,
-                                maxWidth: '400px',
                                 width: '100%',
+                                display: 'flex',
+                                flexWrap: 'wrap',
+                                alignItems: 'center',
+                                justifyContent: 'space-between'
                             }}
                         >
                             {write && (
@@ -263,15 +274,32 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
                                     <TextField
                                     size='small'
                                     sx={{ mr: 4, mb: 2 }}
+                                    placeholder='Search by Name'
+                                    defaultValue={name || ''}
+                                        onChange={(e) => {
+                                            const searchValue = e.target.value
+                                            const currentQuery = { ...router.query, name: searchValue || undefined }
+                                            router.push({
+                                            pathname: router.pathname,
+                                            query: currentQuery
+                                        })
+                                    }}
+
+                                    />
+                                    <TextField
+                                    size='small'
+                                    sx={{ mr: 4, mb: 2 }}
                                     placeholder='Search by Title'
+                                    defaultValue={keyword || ''}
                                     onChange={(e) => {
                                         const searchValue = e.target.value
-                                        if (searchValue) {
-                                        router.push(`/apps/redeem-requests/list/?keyword=${encodeURIComponent(searchValue)}`)
-                                        } else {
-                                        router.push(`/apps/redeem-requests/list/`)
-                                        }
+                                        const currentQuery = { ...router.query, keyword: searchValue || undefined }
+                                        router.push({
+                                        pathname: router.pathname,
+                                        query: currentQuery
+                                        })
                                     }}
+
                                     />
                                 </Box>
                             )}

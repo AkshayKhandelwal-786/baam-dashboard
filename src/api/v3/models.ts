@@ -308,6 +308,7 @@ export type QrData = {
       query: {
         page: string
         size: string
+        keyword?: string
       }
     }
     Create: {
@@ -437,6 +438,7 @@ export type QrHistoryData = {
         page: string
         size: string
         user?: string
+        keyword?:string
       }
     }
   }
@@ -1107,6 +1109,7 @@ export type RedeemRequestData = {
         page: string
         size: string
         keyword?: string
+        name?: string
       }
     }
     Create: {
@@ -1237,7 +1240,7 @@ export type PromotionData = {
       query: {
         page: string
         size: string
-        keyword: string
+        keyword?: string
       }
     }
     Create: {

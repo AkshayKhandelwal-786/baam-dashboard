@@ -21,19 +21,22 @@ const useQrHistoryStore = create(
                 size: 10,
                 search: null as string | null,
                 paginate: true as boolean,
-                user_id: null as string | null
+                user_id: null as string | null,
+                keyword: null as string | null
             }
         },
         (set, get) => ({
             get: {
                 list: async () => {
+
+
                     const {
-                        history: { page, size, search, paginate, user_id }
+                        history: { page, size, search, paginate, user_id, keyword }
                     } = get()
 
                     try {
                         const res = await QrHistoryService.list({
-                            query: { page: `${page}`, size: `${size}`, user: `${user_id}` }
+                            query: { page: `${page}`, size: `${size}`, user: `${user_id}`, keyword: `${keyword}` }
                         })
                 
                         set(prev => ({
@@ -56,13 +59,15 @@ const useQrHistoryStore = create(
                     size,
                     search,
                     paginate,
-                    user_id
+                    user_id,
+                    keyword
                 }: {
                     page?: number
                     size?: number
                     search?: string
                     paginate?: boolean
                     user_id?: string
+                    keyword?:string
                 }) => {
                     set(prev => ({ history: { ...prev.history, search: search || '' } }))
 
@@ -76,6 +81,7 @@ const useQrHistoryStore = create(
                                 size: size || prev.history.size,
                                 search: search || prev.history.search,
                                 user_id: user_id || '',
+                                keyword: keyword || '',
                                 paginate: paginate ?? true,
                             }
                         }))

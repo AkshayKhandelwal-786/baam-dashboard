@@ -109,13 +109,13 @@ const schema = yup.object().shape({
   title: yup.string().label("Title").meta({}).required(),
   offer_point: yup.number().label("Offer Point").meta({}).required(),
   offer_status: yup.string().label("Status").meta({ type: 'select', key: "STATUS" }).required().default(''),
-  file: yup
-          .mixed().label("Image")
-          .meta({ type: 'file', attr: { accept: 'image/x-png,image/jpeg' } })
-          .required(),
 
   description: yup.string().label("Description").meta({}).required(),
   expiry_date: yup.date().nullable().optional().default(null), // ✅ FIXED
+  file: yup
+  .mixed().label("Image")
+  .meta({ type: 'file', attr: { accept: 'image/x-png,image/jpeg' } })
+  .required(),
 });
 
 
@@ -461,6 +461,20 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
                                       }}
                                       {...field?.meta?.attr}
                                     />
+                                    {value && typeof value === 'string' && (
+                                      <img
+                                        src={`${fileUrl}${value}`}
+                                        alt='Preview'
+                                        width={100}
+                                        height={100}
+                                        style={{
+                                          marginTop: 10,
+                                          maxWidth: '100%',
+                                          height: 'auto',
+                                          borderRadius: 8
+                                        }}
+                                      />
+                                      )}
                                   </>
                                 )
                               }

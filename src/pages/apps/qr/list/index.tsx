@@ -124,7 +124,7 @@ const schema = yup.object().shape({
   //   .mixed()
   //   .meta({ type: 'file', attr: { accept: 'image/x-png,image/gif,image/jpeg' } })
   //   .required(),
-  user_types: yup.array().required().min(1).max(2).of(yup.string().required()).label("User Types").meta({ type: 'select', multiple: true, key: "USER_TYPES" }).default([]),
+  user_types: yup.array().required().min(1).max(4).of(yup.string().required()).label("User Types").meta({ type: 'select', multiple: true, key: "USER_TYPES" }).default([]),
   description: yup.string().label("Description").meta({}).required(),
   total_generate_qr: yup.number().max(500).label("Total Qr Required").meta({}).required(),
 });
@@ -154,32 +154,21 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
     mode: 'onChange',
     resolver: yupResolver(schema)
   })
-
-  useEffect(() => {
-    const init = async () => {
-      store.get.paginate({ size: 10, page: 0 })
-    }
-    init()
-  }, [])
-
-  const [filterValue, setFilterValue] = useState('');
-  const [filteredRows, setFilteredRows] = useState(store.qr.list);
+  const { keyword } = router.query
 
   const handleFilter = (val: string) => {
-    setFilterValue(val);
+    store.get.paginate({ search: val })
+  }
 
-    const filtered = store.qr.list.filter(row =>
-      row.code?.toLowerCase().includes(val.toLowerCase())
-    );
-
-    setFilteredRows(filtered);
-  };
-
+    
   useEffect(() => {
-    if (filterValue === '') {
-      setFilteredRows(store.qr.list);
+    if (!router?.isReady) return
+    const init = async () => {
+        store.get.paginate({ size: 10, page: 0, ...(keyword == 'undefined' ? {} : { keyword }) } as any)
+        store.get.paginate({ size: 10, page: 0 })
     }
-  }, [filterValue, store.qr.list]);
+    init()
+  }, [router?.isReady, keyword])
 
 
   // ** Handle Edit dialog
@@ -364,8 +353,15 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
                   <TextField
                     size='small'
                     sx={{ mr: 4, mb: 2 }}
-                    placeholder={`Search by User Types`}
-                    onChange={e => handleFilter(e.target.value)}
+                    placeholder='Search by User Types'
+                    onChange={(e) => {
+                      const searchValue = e.target.value
+                      if (searchValue) {
+                        router.push(`/apps/qr/list/?keyword=${encodeURIComponent(searchValue)}`)
+                      } else {
+                        router.push(`/apps/qr/list/`)
+                      }
+                    }}
                   />
                   <Button
                     sx={{ mb: 2 }}
@@ -382,7 +378,7 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
             <DataGrid
               autoHeight
               pagination
-              rows={filteredRows}
+              rows={store.qr.list}
               columns={columns}
               getRowId={row => row?._id}
               // checkboxSelection
@@ -394,10 +390,13 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
                 pageSize: store.qr.size
               }}
               onPaginationModelChange={({ page, pageSize }) => {
-                if (page === store.qr.page && pageSize === store.qr.size) return;
-                store.get.paginate({ page, size: pageSize });
+                  if (page == store.qr.page && pageSize == store.qr.size) return
+                  store.get.paginate({ page: page, size: pageSize })
               }}
-              rowCount={store.qr.total}      
+              onColumnOrderChange={e => {
+                  console.log('e: ', e)
+              }}
+              rowCount={store.qr.total} 
             />
           </Card>
           {/* Add/Edit Dialog */}

@@ -40,20 +40,25 @@ const useQrStore = create(
     (set, get) => ({
       get: {
         list: async () => {
+          const keyword = typeof window !== 'undefined'
+            ? new URLSearchParams(window.location.search).get('keyword') || ''
+            : ''
+
           const {
             qr: { page, size, search, paginate }
           } = get()
 
           try {
             const res = await QrService.list({
-              query: { page: `${page}`, size: `${size}` }
+              query: { page: `${page}`, size: `${size}`, keyword }
             })
           
             set(prev => ({
               qr: {
                 ...prev.qr,
                 list: res?.data,
-                total: res?.meta?.total
+                total: res?.meta?.total,
+                keyword
               }
             }))
           } catch (err: any) {

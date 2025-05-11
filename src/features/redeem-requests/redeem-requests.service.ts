@@ -18,7 +18,8 @@ const useRedeemRequestStore = create(
         size: 10,
         search: null as string | null,
         paginate: true as boolean,
-        filter: null as string | null
+        filter: null as string | null,
+        name: null as string | null
       }
     },
     (set, get) => ({
@@ -31,13 +32,13 @@ const useRedeemRequestStore = create(
 
 
           const {
-            history: { page, size, search, paginate }
+            history: { page, size, search, paginate, name }
           } = get()
 
 
           try {
             const res = await RedeemRequestService.list({
-              query: { page: `${page}`, size: `${size}`, keyword }
+              query: { page: `${page}`, size: `${size}`, keyword, name }
             })
           
             set(prev => ({
@@ -45,7 +46,8 @@ const useRedeemRequestStore = create(
                 ...prev.history,
                 list: res?.data,
                 total: res?.meta?.total,
-                keyword
+                keyword,
+                name
               }
             }))
           } catch (err: any) {
@@ -57,13 +59,15 @@ const useRedeemRequestStore = create(
           size,
           search,
           paginate,
-          filter
+          filter,
+          name
         }: {
           page?: number
           size?: number
           search?: string
           paginate?: boolean
           filter?: string
+          name?:string
         }) => {
           set(prev => ({ history: { ...prev.history, search: search || '' } }))
 
@@ -78,6 +82,7 @@ const useRedeemRequestStore = create(
                 search: search || prev.history.search,
                 filter: filter || '',
                 paginate: paginate ?? true,
+                name: name || ''
               }
             }))
             useRedeemRequestStore.getState().get.list()
