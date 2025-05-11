@@ -13,6 +13,7 @@ import authConfig from 'src/configs/auth'
 // ** Types
 import { AuthValuesType, LoginParams, ErrCallbackType, UserDataType } from './types'
 import useConstantStore from 'src/features/constants/constants.service'
+import toast from 'react-hot-toast'
 
 // ** Defaults
 const defaultProvider: AuthValuesType = {
@@ -102,6 +103,10 @@ const AuthProvider = ({ children }: Props) => {
           window.localStorage.setItem('adminData', JSON.stringify(json.data))
           const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/'
           router.replace(redirectURL as string)
+        } else {
+          toast.error(json.message || 'Phone or password is invalid')
+
+          
         }
       })
 
