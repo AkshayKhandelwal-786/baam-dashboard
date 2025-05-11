@@ -270,13 +270,15 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
                             pageSizeOptions={[10, 25, 50]}
                             paginationMode='server'
                             paginationModel={{
-                                page: store.history.page,
+                                page: store.history.page - 1, // ✅ Convert 1-based to 0-based for the grid
                                 pageSize: store.history.size
                             }}
                             onPaginationModelChange={({ page, pageSize }) => {
-                                if (page == store.history.page && pageSize == store.history.size) return
-                                store.get.paginate({ page: page + 1, size: pageSize })
+                                const nextPage = page + 1 // ✅ Convert 0-based to 1-based for your backend
+                                if (nextPage === store.history.page && pageSize === store.history.size) return
+                                store.get.paginate({ page: nextPage, size: pageSize })
                             }}
+
                             onColumnOrderChange={e => {
                                 console.log('e: ', e)
                             }}
