@@ -359,6 +359,7 @@ export type QrData = {
         points: number
         url: string
         code: string
+        description: string
         user_types: Array<string>
         createdAt: string
         updatedAt: string

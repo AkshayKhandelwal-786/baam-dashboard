@@ -108,6 +108,23 @@ const defaultColumns: PlanListColumn[] = [
   {
     flex: 0.2,
     minWidth: 90,
+    field: 'description',
+    headerName: 'Description',
+    renderCell: ({ row }: CellType) => (
+    <Typography variant='body2'>
+      {row.qr?.[0]?.description ? 
+        (row.qr?.[0]?.description?.length > 30 
+          ? row.qr?.[0]?.description.slice(0, 30) + '...'
+          : row.qr?.[0]?.description
+        ) 
+        : '-'}
+
+    </Typography>
+  )
+  },
+  {
+    flex: 0.2,
+    minWidth: 90,
     field: 'createdAt',
     headerName: 'Created At',
     renderCell: ({ row }: CellType) => (

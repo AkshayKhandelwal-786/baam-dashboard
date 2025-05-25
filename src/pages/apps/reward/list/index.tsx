@@ -104,7 +104,13 @@ const defaultColumns: PlanListColumn[] = [
     headerName: 'points',
     renderCell: ({ row }: CellType) => <Typography variant='body2'>{row.points}</Typography>
   },
-
+  {
+    flex: 0.2,
+    minWidth: 90,
+    field: 'expire_at',
+    headerName: 'expire_at',
+    renderCell: ({ row }: CellType) => <Typography variant='body2'>{row.expire_at ? row.expire_at : '-'}</Typography>
+  },
   {
     flex: 0.2,
     minWidth: 90,
