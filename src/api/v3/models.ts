@@ -1321,7 +1321,7 @@ export type PromotionData = {
         tnc: string
         discount: number
         image: string
-        expire_at: string
+        expiry_date: string
         qr: string
         points: number
         user_types: Array<string>

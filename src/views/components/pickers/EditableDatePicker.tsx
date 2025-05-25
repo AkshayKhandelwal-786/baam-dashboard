@@ -32,7 +32,7 @@ const EditableDatePicker = ({
   // ** States
   const [monthYear, setMonthYear] = useState<DateType>(new Date())
 
-  const years = range(1990, getYear(new Date()) + 1, 1);
+  const years = range(1990, 2101, 1);
   const months = [
     "January",
     "February",
