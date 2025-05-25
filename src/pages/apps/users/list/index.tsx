@@ -471,9 +471,13 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
                 <Grid container spacing={6}>
                   {Object.keys(describedSchema.fields).map(fieldName => {
                     const field = describedSchema.fields[fieldName] as yup.SchemaDescription & { meta: any }
-                    if (field?.meta?.hidden) {
+                    if (
+                      field?.meta?.hidden || 
+                      (store.astrologer?.id && ['phone', 'email'].includes(fieldName))
+                    ) {
                       return <></>
                     }
+
 
                     let label = field.label
                     if (!label) {

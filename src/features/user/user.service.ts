@@ -151,10 +151,17 @@ const useUserStore = create(
           {
             loading: id ? 'Updating' : 'Adding',
             success: res => {
-              useUserStore.getState().get.paginate({})
-              return id ? 'User updated successfully.' : 'User added successfully.'
+              if (res.status == false) {
+                throw new Error(res.message || 'Something went wrong');
+              } else {
+                useUserStore.getState().get.paginate({})
+                return id ? 'User updated successfully.' : 'User added successfully.'
+              }              
+              
             },
             error: err => {
+              console.log("<err",err);
+              
               return err?.message
             }
           }
