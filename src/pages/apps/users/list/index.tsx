@@ -1,6 +1,6 @@
 // ** React Imports
 import { useState, useEffect } from 'react'
-
+import { UserType } from 'src/constant/constant'
 // ** Next Import
 import Link from 'next/link'
 import { StateName } from 'src/constant/constant'
@@ -128,9 +128,9 @@ const defaultColumns: PlanListColumn[] = [
   {
     flex: 0.1,
     minWidth: 40,//
-    field: 'type',
-    headerName: 'Type',
-    renderCell: ({ row }: CellType) => <Typography variant='body2'>{row.type}</Typography>
+    field: 'user_types',
+    headerName: 'User Type',
+    renderCell: ({ row }: CellType) => <Typography variant='body2'>{row.user_types}</Typography>
   },
   {
     flex: 0.1,
@@ -179,7 +179,7 @@ const schema = yup.object().shape({
   phone: yup.number().label('Mobile Number').meta({}).required(),
   email: yup.string().label('Email').email().meta({}).required(),
   status: yup.string().label("Status").meta({ type: 'select', key: "STATUS" }).required(),
-  category: yup.string().label("Category").meta({ type: 'select', key: "CATEGORY" }).nullable().default(''),
+  user_types: yup.string().label("User Types").meta({ type: 'select', key: "User_TYPE" }).required().default(''),
   address: yup.string().label('Address').meta({}).nullable().optional(),
   pincode: yup.number()
   .typeError('Pincode must be a number')
@@ -497,8 +497,8 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
                           label: item
                         }))
                       }
-                      if (field.meta?.key == 'CATEGORY') {
-                        field.oneOf = ['Customer', 'Group'].map(item => ({
+                      if (field.meta?.key == 'User_TYPE') {
+                        field.oneOf = [UserType.architect,UserType.carpenter,UserType.dealer,UserType.retailer].map(item => ({
                           value: item,
                           label: item
                         }))

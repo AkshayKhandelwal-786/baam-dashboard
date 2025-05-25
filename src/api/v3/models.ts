@@ -635,7 +635,7 @@ export type UserData = {
         state: string
         city: string
         gst_number: string
-        category: string
+        user_types: string
         status: string
       }
 
@@ -652,7 +652,7 @@ export type UserData = {
         state: string
         city: string
         gst_number: string
-        category: string
+        user_types: string
         status: string
       }
 
@@ -698,6 +698,7 @@ export type UserData = {
         photo?: string
         points?: string
         gst_number?: string,
+        user_types?: string,
         total_points_earned?: number
         token?: string
       }>
@@ -720,7 +721,7 @@ export type UserData = {
         state: string
         city: string
         gst_number?: string,
-        category: string
+        user_types?: string,
         status: string
       }
     }
@@ -737,7 +738,7 @@ export type UserData = {
         state: string
         city: string
         gst_number: string
-        category: string
+        user_types?: string,
         status: string
       }
     }
