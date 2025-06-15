@@ -182,12 +182,12 @@ const schema = yup.object().shape({
   user_types: yup.string().label("User Types").meta({ type: 'select', key: "User_TYPE" }).required().default(''),
   address: yup.string().label('Address').meta({}).nullable().optional(),
   pincode: yup.number()
-  .typeError('Pincode must be a number')
-  .test('len', 'Pincode must be exactly 6 digits', value => {
-    if (value === undefined || value === null) return true; // optional
-    return /^\d{6}$/.test(value.toString());
-  })
-  .meta({}).nullable().optional(),
+    .typeError('Pincode must be a number')
+    .test('len', 'Pincode must be exactly 6 digits', value => {
+      if (value === undefined || value === null) return true; // optional
+      return /^\d{6}$/.test(value.toString());
+    })
+    .meta({}).nullable().optional(),
   state: yup.string().label("State").meta({ type: 'select', key: "STATE" }).nullable().default(''),
   city: yup.string().label('City').meta({}).nullable().optional(),
   gst_number: yup.string().label('GST Number').meta({}).nullable().optional(),
@@ -250,7 +250,7 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
   const handleViewClickOpen = () => {
     setOpenView(true)
   }
-  
+
   // ** Handle Edit dialog
   const handleEditClickOpen = async (doReset?: boolean) => {
     if (doReset) {
@@ -313,16 +313,16 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
             </Tooltip>
           )}
           <Tooltip title={`View User Details`}>
-              <IconButton
-                size='small'
-                onClick={() => {
-                  setOpenView(true)
-                  setSelectedUser(row)
-                  handleViewClickOpen()
-                }}
-              >
-                <Icon icon='mdi:eye' fontSize={20} />
-              </IconButton>
+            <IconButton
+              size='small'
+              onClick={() => {
+                setOpenView(true)
+                setSelectedUser(row)
+                handleViewClickOpen()
+              }}
+            >
+              <Icon icon='mdi:eye' fontSize={20} />
+            </IconButton>
           </Tooltip>
         </Box>
       )
@@ -330,10 +330,15 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
   ]
 
   const onSubmit = async () => {
-    const bodyData = getValues() as any
-    await store.add(bodyData)
-    handleEditClose()
-  }
+    const bodyData = getValues() as any;
+    const isSuccess = await store.add(bodyData);
+
+    if (isSuccess) {
+      handleEditClose(); // ✅ Only close if success
+    }
+    // ❌ Do nothing on failure (modal remains open, toast already shown)
+  };
+
 
   const [competition_team_ids, set_competition_team_ids] = useState([
     {
@@ -434,7 +439,7 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
                 if (page === store.astrologer.page && pageSize === store.astrologer.size) return;
                 store.get.paginate({ page: page, size: pageSize });
               }}
-              rowCount={store.astrologer.total}      
+              rowCount={store.astrologer.total}
             />
           </Card>
           {/* Add/Edit Dialog */}
@@ -472,7 +477,7 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
                   {Object.keys(describedSchema.fields).map(fieldName => {
                     const field = describedSchema.fields[fieldName] as yup.SchemaDescription & { meta: any }
                     if (
-                      field?.meta?.hidden || 
+                      field?.meta?.hidden ||
                       (store.astrologer?.id && ['phone', 'email'].includes(fieldName))
                     ) {
                       return <></>
@@ -498,7 +503,7 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
                         }))
                       }
                       if (field.meta?.key == 'User_TYPE') {
-                        field.oneOf = [UserType.architect,UserType.carpenter,UserType.dealer,UserType.retailer].map(item => ({
+                        field.oneOf = [UserType.architect, UserType.carpenter, UserType.dealer, UserType.retailer].map(item => ({
                           value: item,
                           label: item
                         }))
@@ -510,7 +515,7 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
                         }))
                       }
 
-                      
+
                     }
 
                     if (field.type == 'boolean') {
@@ -715,83 +720,83 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
                 <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                   <tbody>
                     <tr>
-                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>Name</td>
-                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>
-                          {selectedUser.name || "-"}
-                        </td>
+                      <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>Name</td>
+                      <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>
+                        {selectedUser.name || "-"}
+                      </td>
                     </tr>
                     <tr>
-                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>Category</td>
-                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>
-                          {selectedUser.category || "-"}
-                        </td>
+                      <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>Category</td>
+                      <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>
+                        {selectedUser.category || "-"}
+                      </td>
                     </tr>
                     <tr>
-                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>Address</td>
-                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>
-                          {selectedUser.address || "-"}
-                        </td>
+                      <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>Address</td>
+                      <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>
+                        {selectedUser.address || "-"}
+                      </td>
                     </tr>
                     <tr>
-                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>Pincode</td>
-                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>
+                      <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>Pincode</td>
+                      <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>
                         {selectedUser.pincode || "-"}
-                        </td>
+                      </td>
                     </tr>
                     <tr>
-                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>State</td>
-                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>
+                      <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>State</td>
+                      <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>
                         {selectedUser.state || "-"}
-                        </td>
+                      </td>
                     </tr>
                     <tr>
-                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>City</td>
-                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>
+                      <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>City</td>
+                      <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>
                         {selectedUser.city || "-"}
-                        </td>
+                      </td>
                     </tr>
                     <tr>
-                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>Email</td>
-                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>
+                      <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>Email</td>
+                      <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>
                         {selectedUser.email || "-"}
-                        </td>
+                      </td>
                     </tr>
                     <tr>
-                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>Phone Number</td>
-                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>
+                      <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>Phone Number</td>
+                      <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>
                         {selectedUser.phone_code}
                         {selectedUser.phone || "-"}
-                        </td>
+                      </td>
                     </tr>
                     <tr>
-                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>Type</td>
-                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>
+                      <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>Type</td>
+                      <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>
                         {selectedUser.type || "-"}
-                        </td>
+                      </td>
                     </tr>
                     <tr>
-                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>Status</td>
-                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>
+                      <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>Status</td>
+                      <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>
                         {selectedUser.status || "-"}
-                        </td>
+                      </td>
                     </tr>
                     <tr>
-                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>Points</td>
-                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>
+                      <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>Points</td>
+                      <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>
                         {selectedUser.points || "-"}
-                        </td>
+                      </td>
                     </tr>
                     <tr>
-                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>Total Points Earned</td>
-                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>
+                      <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>Total Points Earned</td>
+                      <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>
                         {selectedUser.total_points_earned || "-"}
-                        </td>
+                      </td>
                     </tr>
                     <tr>
-                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>Invite Code</td>
-                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>
+                      <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>Invite Code</td>
+                      <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>
                         {selectedUser.invite_code || "-"}
-                        </td>
+                      </td>
                     </tr>
                   </tbody>
                 </table>
@@ -801,44 +806,44 @@ const PlanList = ({ read, write, update, del }: GlobalProps) => {
                 <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                   <tbody>
                     <tr>
-                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>Account Type</td>
-                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>
+                      <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>Account Type</td>
+                      <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>
                         {selectedUser.account_type || "-"}
-                        </td>
+                      </td>
                     </tr>
                     <tr>
-                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>Bank Name</td>
-                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>
+                      <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>Bank Name</td>
+                      <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>
                         {selectedUser.bank_name || "-"}
-                        </td>
+                      </td>
                     </tr>
                     <tr>
-                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>Passbook Photo</td>
-                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>
-                          {selectedUser.passbook_photo ? (
-                            <img
-                              src={`${fileUrl}${selectedUser.passbook_photo}`}
-                              alt="Passbook"
-                              style={{ maxWidth: '150px', maxHeight: '150px', borderRadius: '8px' }}
-                            />
-                          ) : (
-                            "-"
-                          )}
-                        </td>
+                      <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>Passbook Photo</td>
+                      <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>
+                        {selectedUser.passbook_photo ? (
+                          <img
+                            src={`${fileUrl}${selectedUser.passbook_photo}`}
+                            alt="Passbook"
+                            style={{ maxWidth: '150px', maxHeight: '150px', borderRadius: '8px' }}
+                          />
+                        ) : (
+                          "-"
+                        )}
+                      </td>
                     </tr>
                     <tr>
-                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>Profile Picture</td>
-                        <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>
-                          {selectedUser.profile_picture ? (
-                            <img
-                              src={`${fileUrl}${selectedUser.profile_picture}`}
-                              alt="Passbook"
-                              style={{ maxWidth: '150px', maxHeight: '150px', borderRadius: '8px' }}
-                            />
-                          ) : (
-                            "-"
-                          )}
-                        </td>
+                      <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>Profile Picture</td>
+                      <td style={{ fontWeight: 'bold', padding: '8px', borderBottom: '1px solid #ccc' }}>
+                        {selectedUser.profile_picture ? (
+                          <img
+                            src={`${fileUrl}${selectedUser.profile_picture}`}
+                            alt="Passbook"
+                            style={{ maxWidth: '150px', maxHeight: '150px', borderRadius: '8px' }}
+                          />
+                        ) : (
+                          "-"
+                        )}
+                      </td>
                     </tr>
                   </tbody>
                 </table>

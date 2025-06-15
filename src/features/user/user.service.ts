@@ -39,20 +39,20 @@ const useUserStore = create(
             astrologer: { page, size, search, paginate }
           } = get()
           try {
-              const res = await UserService.list({
-                query: { page: `${page}`, size: `${size}` }
-              })
-            
-              set(prev => ({
-                astrologer: {
-                  ...prev.astrologer,
-                  list: res?.data,
-                  total: res?.meta?.total
-                }
-              }))
-            } catch (err: any) {
-              console.error('Fetch error:', err?.message || err)
-            }
+            const res = await UserService.list({
+              query: { page: `${page}`, size: `${size}` }
+            })
+
+            set(prev => ({
+              astrologer: {
+                ...prev.astrologer,
+                list: res?.data,
+                total: res?.meta?.total
+              }
+            }))
+          } catch (err: any) {
+            console.error('Fetch error:', err?.message || err)
+          }
         },
         paginate: ({
           page,
@@ -129,43 +129,42 @@ const useUserStore = create(
       select: (id: any) => set(prev => ({ astrologer: { ...prev.astrologer, id: id } })),
 
       add: async (bodyData: any) => {
-        let id = get().astrologer.id
+        let id = get().astrologer.id;
 
-        if (id) {
-          if (typeof bodyData.image == 'string') {
-            delete bodyData.image
-          }
+        if (id && typeof bodyData.image === 'string') {
+          delete bodyData.image;
         }
 
-        toast.promise(
-          id
-            ? UserService.update({
-              query: {
-                id: id
+        try {
+          const response = await toast.promise(
+            id
+              ? UserService.update({ query: { id }, requestBody: bodyData })
+              : UserService.create({ requestBody: bodyData }),
+            {
+              loading: id ? 'Updating' : 'Adding',
+              success: res => {
+                if (res.status === false) {
+                  throw new Error(res.message || 'Something went wrong');
+                }
+                useUserStore.getState().get.paginate({});
+                return id ? 'User updated successfully.' : 'User added successfully.';
               },
-              requestBody: bodyData
-            })
-            : UserService.create({
-              requestBody: bodyData
-            }),
-          {
-            loading: id ? 'Updating' : 'Adding',
-            success: res => {
-              if (res.status == false) {
-                throw new Error(res.message || 'Something went wrong');
-              } else {
-                useUserStore.getState().get.paginate({})
-                return id ? 'User updated successfully.' : 'User added successfully.'
-              }              
-              
-            },
-            error: err => {
-              console.log("<err",err);
-              
-              return err?.message
+              error: err => {
+                console.log('<err', err);
+                return err?.message || 'Error occurred';
+              }
             }
+          );
+
+          // response might be undefined due to toast.promise's custom handlers
+          if (!response?.status) {
+            throw new Error(response?.message || 'Something went wrong');
           }
-        )
+
+          return true;
+        } catch (err) {
+          return false; // signal failure
+        }
       },
       delete: async () => {
         let id = get().astrologer.id
